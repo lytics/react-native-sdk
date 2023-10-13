@@ -6,12 +6,18 @@
 //  Copyright © 2023 Lytics Inc. All rights reserved.
 //
 
+import AnyCodable
+import Foundation
+import Lytics
+
 @objc(LyticsBridge)
 public final class LyticsBridge: NSObject {
     private let encoder: JSONEncoder
+    private let lytics: Lytics
 
-    public init(encoder: JSONEncoder = .init()) {
+    public init(encoder: JSONEncoder = .init(), lytics: Lytics = .shared) {
         self.encoder = encoder
+        self.lytics = lytics
     }
 
     // MARK: - Properties
@@ -19,22 +25,19 @@ public final class LyticsBridge: NSObject {
     /// Returns a Boolean value indicating whether this instance has been started.
     @objc
     public func hasStarted() -> Bool {
-        // ...
-        true
+        lytics.hasStarted
     }
 
     /// Returns a Boolean value indicating whether the user has opted in to event collection.
     @objc
     public func isOptedIn() -> Bool {
-        // ...
-        true
+        lytics.isOptedIn
     }
 
     /// Returns a Boolean value indicating whether IDFA is enabled.
     @objc
     public func isIDFAEnabled() -> Bool {
-        // ...
-        true
+        lytics.isIDFAEnabled
     }
 
     /// The current Lytics user.
@@ -51,74 +54,79 @@ public final class LyticsBridge: NSObject {
         apiToken: String,
         configuration: [String: Any]?
     ) {
-        if let urlString = configuration["collectionEndpoint"] as? String,
-           let collectionEndpoint = URL(string: urlString) {
-            // ...
-        }
+        lytics.start(apiToken: apiToken) { lyticsConfig in
+            guard let configuration else {
+                return
+            }
 
-        if let urlString = configuration["entityEndpoint"] as? String,
-           let entityEndpoint = URL(string: urlString) {
-            // ...
-        }
+            if let urlString = configuration["collectionEndpoint"] as? String,
+               let collectionEndpoint = URL(string: urlString) {
+                lyticsConfig.collectionEndpoint = collectionEndpoint
+            }
 
-        if let defaultStream = configuration["defaultStream"] as? String {
-            // ...
-        }
+            if let urlString = configuration["entityEndpoint"] as? String,
+               let entityEndpoint = URL(string: urlString) {
+                lyticsConfig.entityEndpoint = entityEndpoint
+            }
 
-        if let primaryIdentityKey = configuration["primaryIdentityKey"] as? String {
-            // ...
-        }
+            if let defaultStream = configuration["defaultStream"] as? String {
+                lyticsConfig.defaultStream = defaultStream
+            }
 
-        if let anonymousIdentityKey = configuration["anonymousIdentityKey"] as? String {
-            // ...
-        }
+            if let primaryIdentityKey = configuration["primaryIdentityKey"] as? String {
+                lyticsConfig.primaryIdentityKey = primaryIdentityKey
+            }
 
-        // skipping `.trackApplicationLifecycleEvents`
+            if let anonymousIdentityKey = configuration["anonymousIdentityKey"] as? String {
+                lyticsConfig.anonymousIdentityKey = anonymousIdentityKey
+            }
 
-        if let uploadInterval = configuration["uploadInterval"] as? Double {
-            // ...
-        }
+            // skipping `.trackApplicationLifecycleEvents`
 
-        if let maxQueueSize = configuration["maxQueueSize"] as? Int {
-            // ...
-        }
+            if let uploadInterval = configuration["uploadInterval"] as? Double {
+                lyticsConfig.uploadInterval = uploadInterval
+            }
 
-        if let maxUploadRetryAttempts = configuration["maxUploadRetryAttempts"] as? Int {
-            // ...
-        }
+            if let maxQueueSize = configuration["maxQueueSize"] as? Int {
+                lyticsConfig.maxQueueSize = maxQueueSize
+            }
 
-        if let sessionDuration = configuration["sessionDuration"] as? Double {
-            // ...
-        }
+            if let maxUploadRetryAttempts = configuration["maxUploadRetryAttempts"] as? Int {
+                lyticsConfig.maxUploadRetryAttempts = maxUploadRetryAttempts
+            }
 
-        // TODO: do `Bool`s work as expected?
-        if let enableSandbox = configuration["enableSandbox"] as? Bool {
-            // ...
-        }
+            if let sessionDuration = configuration["sessionDuration"] as? Double {
+                lyticsConfig.sessionDuration = sessionDuration
+            }
 
-        if let requireConsent = configuration["requireConsent"] as? Bool {
-            // ...
-        }
+            // TODO: do `Bool`s work as expected?
+            if let enableSandbox = configuration["enableSandbox"] as? Bool {
+                lyticsConfig.enableSandbox = enableSandbox
+            }
 
-        if let logLevel = configuration["logLevel"] as? String {
-            switch logLevel {
-            case "debug":
-                config.logLevel = .debug
-            case "info":
-                config.logLevel = .info
-            case "error":
-                config.logLevel = .error
-            case "none":
-                config.logLevel = .none
-            default:
-                break
+            if let requireConsent = configuration["requireConsent"] as? Bool {
+                lyticsConfig.requireConsent = requireConsent
+            }
+
+            if let logLevel = configuration["logLevel"] as? String {
+                switch logLevel {
+                case "debug":
+                    lyticsConfig.logLevel = .debug
+                case "info":
+                    lyticsConfig.logLevel = .info
+                case "error":
+                    lyticsConfig.logLevel = .error
+                case "none":
+                    lyticsConfig.logLevel = .none
+                default:
+                    break
+                }
+            }
+
+            if let defaultTable = configuration["defaultTable"] as? String {
+                lyticsConfig.defaultTable = defaultTable
             }
         }
-
-        if let defaultTable = configuration["defaultTable"] as? String {
-            config.defaultTable = defaultTable
-        }
-
     }
 
     // MARK: - Events
@@ -130,7 +138,11 @@ public final class LyticsBridge: NSObject {
         identifiers: [String: Any],
         properties: [String: Any]
     ) {
-        // ...
+        lytics.track(
+            stream: stream,
+            name: name,
+            identifiers: AnyCodable(identifiers),
+            properties: AnyCodable(properties))
     }
 
     @objc
@@ -141,7 +153,12 @@ public final class LyticsBridge: NSObject {
         attributes: [String: Any],
         shouldSend: Bool = true
     ) {
-        // ...
+        lytics.identify(
+            stream: stream,
+            name: name,
+            identifiers: AnyCodable(identifiers),
+            attributes: AnyCodable(attributes),
+            shouldSend: shouldSend)
     }
 
     @objc
@@ -153,7 +170,12 @@ public final class LyticsBridge: NSObject {
         consent: [String: Any],
         shouldSend: Bool = true
     ) {
-        // ...
+        lytics.consent(
+            stream: stream,
+            name: name,
+            identifiers: AnyCodable(identifiers),
+            attributes: AnyCodable(attributes),
+            consent: AnyCodable(consent))
     }
 
     @objc
@@ -163,7 +185,11 @@ public final class LyticsBridge: NSObject {
         identifiers: [String: Any],
         properties: [String: Any]
     ) {
-        // ...
+        lytics.screen(
+            stream: stream,
+            name: name,
+            identifiers: AnyCodable(identifiers),
+            properties: AnyCodable(properties))
     }
 
     // MARK: - Personalization
@@ -174,6 +200,8 @@ public final class LyticsBridge: NSObject {
     ) {
         Task {
             do {
+                let profile = try await lytics.getProfile()
+                let dictionary = try convert(profile)
                 // TODO: call completion handler with result
             } catch {
                 // TODO: call completion handler
@@ -189,6 +217,11 @@ public final class LyticsBridge: NSObject {
     ) {
         Task {
             do {
+                let profile = try await lytics.getProfile(
+                    EntityIdentifier(
+                        name: identifierName,
+                        value: identifierValue))
+                let dictionary = try convert(profile)
                 // TODO: call completion handler with result
             } catch {
                 // TODO: call completion handler
@@ -199,24 +232,24 @@ public final class LyticsBridge: NSObject {
     // MARK: - Tracking
 
     public func optIn() {
-        // ...
+        lytics.optIn()
     }
 
     public func optOut() {
-        // ...
+        lytics.optOut()
     }
-
 
     public func requestTrackingAuthorization(
         // TODO: add completion handler for `Bool`
     ) {
         Task {
+            let result = await lytics.requestTrackingAuthorization()
             // TODO: call completion handler with result
         }
     }
 
     public func disableTracking() {
-        // ...
+        lytics.disableTracking()
     }
 
     // MARK: - Utility
@@ -224,23 +257,24 @@ public final class LyticsBridge: NSObject {
     public func identifier(
         // TODO: add completion handler for `String` return value
     ) {
+        let identifier = lytics.identifier()
         // TODO: call completion handler with result
     }
 
     public func dispatch() {
-        // ...
+        lytics.dispatch()
     }
 
     public func reset() {
-        // ...
+        lytics.reset()
     }
 
     public func removeIdentifier(_ path: String) {
-        // ...
+        lytics.removeIdentifier(DictionaryPath(path))
     }
 
     public func removeAttribute(_ path: String) {
-        // ...
+        lytics.removeAttribute(DictionaryPath(path))
     }
 }
 
