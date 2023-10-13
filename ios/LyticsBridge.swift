@@ -15,9 +15,16 @@ public final class LyticsBridge: NSObject {
     private let encoder: JSONEncoder
     private let lytics: Lytics
 
-    public init(encoder: JSONEncoder = .init(), lytics: Lytics = .shared) {
-        self.encoder = encoder
-        self.lytics = lytics
+    public override init() {
+        self.encoder = JSONEncoder()
+        self.lytics = Lytics.shared
+        super.init()
+    }
+
+    // TODO: remove test method
+    @objc(multiply:withB:withResolver:withRejecter:)
+    public func multiply(a: Float, b: Float, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        resolve(a*b)
     }
 
     // MARK: - Properties

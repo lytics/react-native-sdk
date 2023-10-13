@@ -6,8 +6,8 @@ const LINKING_ERROR =
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
 
-const Sdk = NativeModules.Sdk
-  ? NativeModules.Sdk
+const Sdk = NativeModules.LyticsBridge
+  ? NativeModules.LyticsBridge
   : new Proxy(
       {},
       {
