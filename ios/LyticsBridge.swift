@@ -72,7 +72,7 @@ public final class LyticsBridge: NSObject {
         configuration: [String: Any]?
     ) {
         lytics.start(apiToken: apiToken) { lyticsConfig in
-            guard let configuration else {
+            guard let configuration, !configuration.isEmpty else {
                 return
             }
 
@@ -277,25 +277,30 @@ public final class LyticsBridge: NSObject {
 
     // MARK: - Utility
 
+    @objc
     public func identifier(
-        // TODO: add completion handler for `String` return value
+        resolve: @escaping RCTPromiseResolveBlock,
+        reject: @escaping RCTPromiseRejectBlock
     ) {
-        let identifier = lytics.identifier()
-        // TODO: call completion handler with result
+        resolve(lytics.identifier())
     }
 
+    @objc
     public func dispatch() {
         lytics.dispatch()
     }
 
+    @objc
     public func reset() {
         lytics.reset()
     }
 
+    @objc
     public func removeIdentifier(_ path: String) {
         lytics.removeIdentifier(DictionaryPath(path))
     }
 
+    @objc
     public func removeAttribute(_ path: String) {
         lytics.removeAttribute(DictionaryPath(path))
     }

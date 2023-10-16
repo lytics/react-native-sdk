@@ -79,6 +79,24 @@ RCT_EXTERN_METHOD(requestTrackingAuthorizationWithResolve:(RCTPromiseResolveBloc
                   reject:(RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(disableTracking)
+
+#pragma mark - Utility
+
+RCT_EXTERN_METHOD(identifierWithResolve:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(dispatch)
+
+RCT_EXTERN_METHOD(reset)
+
+RCT_EXTERN_METHOD(dispatch)
+
+RCT_EXTERN_METHOD(removeIdentifier:(NSString *) path)
+
+RCT_EXTERN_METHOD(removeAttribute:(NSString *) path)
+
+#pragma mark - React Native
+
 + (BOOL)requiresMainQueueSetup
 {
   return NO;
