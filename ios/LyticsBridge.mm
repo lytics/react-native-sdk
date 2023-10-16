@@ -68,6 +68,17 @@ RCT_EXTERN_METHOD(getProfileWithIdentifierName:(NSString *) identifierName
                   identifierValue:(NSString *) identifierValue
                   resolve:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
+
+#pragma mark - Tracking
+
+RCT_EXTERN_METHOD(optIn)
+
+RCT_EXTERN_METHOD(optOut)
+
+RCT_EXTERN_METHOD(requestTrackingAuthorizationWithResolve:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(disableTracking)
 + (BOOL)requiresMainQueueSetup
 {
   return NO;

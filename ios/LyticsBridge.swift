@@ -250,23 +250,27 @@ public final class LyticsBridge: NSObject {
 
     // MARK: - Tracking
 
+    @objc
     public func optIn() {
         lytics.optIn()
     }
 
+    @objc
     public func optOut() {
         lytics.optOut()
     }
 
+    @objc
     public func requestTrackingAuthorization(
-        // TODO: add completion handler for `Bool`
+        resolve: @escaping RCTPromiseResolveBlock,
+        reject: @escaping RCTPromiseRejectBlock
     ) {
         Task {
-            let result = await lytics.requestTrackingAuthorization()
-            // TODO: call completion handler with result
+            resolve(await lytics.requestTrackingAuthorization())
         }
     }
 
+    @objc
     public func disableTracking() {
         lytics.disableTracking()
     }
