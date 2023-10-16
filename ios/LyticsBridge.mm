@@ -58,6 +58,16 @@ RCT_EXTERN_METHOD(screenWithStream:(NSString *) stream
                   name:(NSString *) name
                   identifiers:(NSDictionary<NSString *,id> *) identifiers
                   properties:(NSDictionary<NSString *,id> *) properties)
+
+#pragma mark - Personalization
+
+RCT_EXTERN_METHOD(getProfileWithResolve:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(getProfileWithIdentifierName:(NSString *) identifierName
+                  identifierValue:(NSString *) identifierValue
+                  resolve:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject)
 + (BOOL)requiresMainQueueSetup
 {
   return NO;

@@ -213,15 +213,16 @@ public final class LyticsBridge: NSObject {
 
     @objc
     public func getProfile(
-        // TODO: add completion handler
+        resolve: @escaping RCTPromiseResolveBlock,
+        reject: @escaping RCTPromiseRejectBlock
     ) {
         Task {
             do {
                 let profile = try await lytics.getProfile()
                 let dictionary = try convert(profile)
-                // TODO: call completion handler with result
+                resolve(dictionary)
             } catch {
-                // TODO: call completion handler
+                reject("failure", error.localizedDescription, error)
             }
         }
     }
@@ -229,8 +230,9 @@ public final class LyticsBridge: NSObject {
     @objc
     public func getProfile(
         identifierName: String,
-        identifierValue: String
-        // TODO: add completion handler
+        identifierValue: String,
+        resolve: @escaping RCTPromiseResolveBlock,
+        reject: @escaping RCTPromiseRejectBlock
     ) {
         Task {
             do {
@@ -239,9 +241,9 @@ public final class LyticsBridge: NSObject {
                         name: identifierName,
                         value: identifierValue))
                 let dictionary = try convert(profile)
-                // TODO: call completion handler with result
+                resolve(dictionary)
             } catch {
-                // TODO: call completion handler
+                reject("failure", error.localizedDescription, error)
             }
         }
     }
