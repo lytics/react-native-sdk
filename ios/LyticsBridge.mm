@@ -33,6 +33,31 @@ RCT_EXTERN_METHOD(userWithResolve:(RCTPromiseResolveBlock)resolve
 RCT_EXTERN_METHOD(startWithApiToken:(NSString *) apiToken
                   configuration:(NSDictionary<NSString *,id> *) configuration)
 
+#pragma mark - Events
+
+RCT_EXTERN_METHOD(trackWithStream:(NSString *) stream
+                  name:(NSString *) name
+                  identifiers:(NSDictionary<NSString *,id> *) identifiers
+                  properties:(NSDictionary<NSString *,id> *) properties)
+
+RCT_EXTERN_METHOD(identifyWithStream:(NSString *) stream
+                  name:(NSString *) name
+                  identifiers:(NSDictionary<NSString *,id> *) identifiers
+                  attributes:(NSDictionary<NSString *,id> *) attributes
+                  shouldSend:(BOOL) shouldSend)
+
+
+RCT_EXTERN_METHOD(consentWithStream:(NSString *) stream
+                  name:(NSString *) name
+                  identifiers:(NSDictionary<NSString *,id> *) identifiers
+                  attributes:(NSDictionary<NSString *,id> *) attributes
+                  consent:(NSDictionary<NSString *,id> *) consent
+                  shouldSend:(BOOL) shouldSend)
+
+RCT_EXTERN_METHOD(screenWithStream:(NSString *) stream
+                  name:(NSString *) name
+                  identifiers:(NSDictionary<NSString *,id> *) identifiers
+                  properties:(NSDictionary<NSString *,id> *) properties)
 + (BOOL)requiresMainQueueSetup
 {
   return NO;
