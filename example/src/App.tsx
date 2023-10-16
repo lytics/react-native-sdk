@@ -15,9 +15,11 @@ export default function App() {
     hasStarted().then(setResult);
   }, []);
 
+  console.log('hasStarted:', result);
+
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Text>Has Started: {result}</Text>
     </View>
   );
 }
