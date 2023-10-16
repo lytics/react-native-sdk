@@ -28,29 +28,39 @@ public final class LyticsBridge: NSObject {
     }
 
     // MARK: - Properties
-
+    
     /// Returns a Boolean value indicating whether this instance has been started.
     @objc
-    public func hasStarted() -> Bool {
-        lytics.hasStarted
+    public func hasStarted(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        resolve(lytics.hasStarted)
     }
 
     /// Returns a Boolean value indicating whether the user has opted in to event collection.
     @objc
-    public func isOptedIn() -> Bool {
-        lytics.isOptedIn
+    public func isOptedIn(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        resolve(lytics.isOptedIn)
     }
 
     /// Returns a Boolean value indicating whether IDFA is enabled.
     @objc
-    public func isIDFAEnabled() -> Bool {
-        lytics.isIDFAEnabled
+    public func isIDFAEnabled(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        resolve(lytics.isIDFAEnabled)
     }
 
     /// The current Lytics user.
-    public func user() {
+    @objc
+    public func user(
+        resolve: @escaping RCTPromiseResolveBlock,
+        reject: @escaping RCTPromiseRejectBlock
+    ) {
         Task {
-            // ...
+            let user = await lytics.user
+            do {
+                let dictionary = try convert(user)
+                resolve(dictionary)
+            } catch {
+                reject("failure", error.localizedDescription, error)
+            }
         }
     }
 
