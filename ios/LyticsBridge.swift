@@ -21,12 +21,6 @@ public final class LyticsBridge: NSObject {
         super.init()
     }
 
-    // TODO: remove test method
-    @objc(multiply:withB:withResolver:withRejecter:)
-    public func multiply(a: Float, b: Float, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        resolve(a*b)
-    }
-
     // MARK: - Properties
     
     /// Returns a Boolean value indicating whether this instance has been started.

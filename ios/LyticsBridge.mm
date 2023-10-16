@@ -10,10 +10,6 @@
 
 @interface RCT_EXTERN_MODULE(LyticsBridge, NSObject)
 
-RCT_EXTERN_METHOD(multiply:(float)a withB:(float)b
-                  withResolver:(RCTPromiseResolveBlock)resolve
-                  withRejecter:(RCTPromiseRejectBlock)reject)
-
 #pragma mark - Properties
 
 RCT_EXTERN_METHOD(hasStartedWithResolve:(RCTPromiseResolveBlock)resolve

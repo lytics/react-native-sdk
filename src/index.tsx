@@ -17,6 +17,14 @@ const Sdk = NativeModules.LyticsBridge
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return Sdk.multiply(a, b);
+// Properties
+
+export function hasStarted(): Promise<boolean> {
+  return Sdk.hasStartedWithResolve();
+}
+
+// Configuration
+
+export function start(apiToken: string, options: any) {
+  Sdk.startWithApiToken(apiToken, options);
 }
