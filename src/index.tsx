@@ -25,6 +25,10 @@ export function hasStarted(): Promise<boolean> {
 
 // Configuration
 
-export function start(apiToken: string, options: any) {
+export type LyticsConfiguration = {
+  [key: string]: any;
+};
+
+export function start(apiToken: string, options: LyticsConfiguration) {
   Sdk.startWithApiToken(apiToken, options);
 }
