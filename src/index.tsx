@@ -6,8 +6,8 @@ const LINKING_ERROR =
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
 
-const Sdk = NativeModules.Sdk
-  ? NativeModules.Sdk
+const Sdk = NativeModules.LyticsBridge
+  ? NativeModules.LyticsBridge
   : new Proxy(
       {},
       {
@@ -17,6 +17,18 @@ const Sdk = NativeModules.Sdk
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return Sdk.multiply(a, b);
+// Properties
+
+export function hasStarted(): Promise<boolean> {
+  return Sdk.hasStartedWithResolve();
+}
+
+// Configuration
+
+export type LyticsConfiguration = {
+  [key: string]: any;
+};
+
+export function start(apiToken: string, options: LyticsConfiguration) {
+  Sdk.startWithApiToken(apiToken, options);
 }

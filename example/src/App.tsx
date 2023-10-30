@@ -1,18 +1,25 @@
 import * as React from 'react';
 
 import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-sdk';
+import { start, hasStarted } from 'react-native-sdk';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+  const [result, setResult] = React.useState<boolean | undefined>();
+
+  // WARNING: this is not a safe way to store your API token!
+  const apiToken = 'xxxxxx';
 
   React.useEffect(() => {
-    multiply(3, 7).then(setResult);
+    // Configure the SDK at startup
+    start(apiToken, {});
+    hasStarted().then(setResult);
   }, []);
+
+  console.log('hasStarted:', result);
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Text>Has Started: {result}</Text>
     </View>
   );
 }
