@@ -96,6 +96,46 @@ class SdkModule(reactContext: ReactApplicationContext) :
         )
     }
 
+    @ReactMethod
+    fun screen(
+        stream: String? = null,
+        name: String? = null,
+        identifiers: ReadableMap? = null,
+        properties: ReadableMap? = null
+    ) {
+        Lytics.screen(
+            LyticsEvent(
+                stream = stream,
+                name = name,
+                identifiers = identifiers?.toHashMap(),
+                properties = properties?.toHashMap()
+            )
+        )
+    }
+
+    // Tracking
+
+    @ReactMethod
+    fun optIn() {
+        Lytics.optIn()
+    }
+
+    @ReactMethod
+    fun optOut() {
+        Lytics.optOut()
+    }
+
+    // Utility
+
+    @ReactMethod
+    fun dispatch() {
+        Lytics.dispatch()
+    }
+
+    @ReactMethod
+    fun reset() {
+        Lytics.reset()
+    }
     companion object {
         const val NAME = "LyticsBridge"
     }
