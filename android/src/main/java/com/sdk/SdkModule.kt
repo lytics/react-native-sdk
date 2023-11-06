@@ -1,5 +1,6 @@
 package com.sdk
 
+import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
@@ -12,14 +13,22 @@ class SdkModule(reactContext: ReactApplicationContext) :
     return NAME
   }
 
-  // Example method
-  // See https://reactnative.dev/docs/native-modules-android
+  // Properties
+
   @ReactMethod
-  fun multiply(a: Double, b: Double, promise: Promise) {
-    promise.resolve(a * b)
+  fun hasStartedWithResolve(promise: Promise) {
+    // TODO: implement
+    promise.resolve(true)
+  }
+
+  // Configuration
+
+  @ReactMethod
+  fun startWithApiToken(apiToken: String, options: ReadableMap) {
+    // TODO: implement
   }
 
   companion object {
-    const val NAME = "Sdk"
+    const val NAME = "LyticsBridge"
   }
 }
