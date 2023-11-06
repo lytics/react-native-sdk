@@ -7,28 +7,28 @@ import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.Promise
 
 class SdkModule(reactContext: ReactApplicationContext) :
-  ReactContextBaseJavaModule(reactContext) {
+    ReactContextBaseJavaModule(reactContext) {
 
-  override fun getName(): String {
-    return NAME
-  }
+    override fun getName(): String {
+        return NAME
+    }
 
-  // Properties
+    // Properties
 
-  @ReactMethod
-  fun hasStartedWithResolve(promise: Promise) {
-    // TODO: implement
-    promise.resolve(true)
-  }
+    @ReactMethod
+    fun hasStartedWithResolve(promise: Promise) {
+        // TODO: implement
+        promise.resolve(true)
+    }
 
-  // Configuration
+    // Configuration
 
-  @ReactMethod
-  fun startWithApiToken(apiToken: String, options: ReadableMap) {
-    // TODO: implement
-  }
+    @ReactMethod
+    fun startWithApiToken(apiToken: String, options: ReadableMap) {
+        // TODO: implement
+    }
 
-  companion object {
-    const val NAME = "LyticsBridge"
-  }
+    companion object {
+        const val NAME = "LyticsBridge"
+    }
 }
