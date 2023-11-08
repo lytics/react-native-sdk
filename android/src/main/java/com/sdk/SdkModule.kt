@@ -1,5 +1,6 @@
 package com.sdk
 
+import android.content.Context
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -11,9 +12,16 @@ import com.lytics.android.events.LyticsIdentityEvent
 import com.lytics.android.logging.LogLevel
 import com.lytics.android.Lytics
 import com.lytics.android.LyticsConfiguration
+import java.util.concurrent.TimeUnit
 
 class SdkModule(reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext) {
+
+    private val context: Context
+
+    init {
+        context = reactContext.getApplicationContext()
+    }
 
     override fun getName(): String {
         return NAME
@@ -31,10 +39,43 @@ class SdkModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun startWithApiToken(apiToken: String, options: ReadableMap) {
-        // TODO: implement
+        val uploadInterval = options.getDoubleOrNull("uploadInterval") ?: DEFAULT_UPLOAD_INTERVAL
+        val sessionTimeout = options.getDoubleOrNull("sessionTimeout") ?: DEFAULT_SESSION_TIMEOUT
+        val requestTimeout = options.getDoubleOrNull("networkRequestTimeout") ?: DEFAULT_NETWORK_REQUEST_TIMEOUT
+        val logLevel = options.getString("logLevel")?.let { LogLevel::class.byNameIgnoreCaseOrNull(it) } ?: LogLevel.NONE
+
         val config = LyticsConfiguration(
             apiKey = apiToken,
+            defaultStream = options.getString("defaultStream") ?: DEFAULT_STREAM,
+            primaryIdentityKey = options.getString("primaryIdentityKey")
+                ?: LyticsConfiguration.DEFAULT_PRIMARY_IDENTITY_KEY,
+            anonymousIdentityKey = options.getString("anonymousIdentityKey")
+                ?: LyticsConfiguration.DEFAULT_ANONYMOUS_IDENTITY_KEY,
+            defaultTable = options.getString("defaultTable")
+                ?: LyticsConfiguration.DEFAULT_ENTITY_TABLE,
+            requireConsent = options.getBoolean("requireConsent"),
+            autoTrackActivityScreens = options.getBooleanOrNull("autoTrackActivityScreens")
+                ?: false,
+            autoTrackFragmentScreens = options.getBooleanOrNull("autoTrackFragmentScreens")
+                ?: false,
+            autoTrackAppOpens = options.getBooleanOrNull("autoTrackAppOpens") ?: false,
+            maxQueueSize = options.getIntOrNull("maxQueueSize") ?: DEFAULT_MAX_QUEUE_SIZE,
+            maxUploadRetryAttempts = options.getIntOrNull("maxUploadRetryAttempts")
+                ?: DEFAULT_MAX_UPLOAD_RETRY_ATTEMPTS,
+            maxLoadRetryAttempts = options.getIntOrNull("maxLoadRetryAttempts")
+                ?: DEFAULT_MAX_LOAD_RETRY_ATTEMPTS,
+            uploadInterval = TimeUnit.SECONDS.toMillis(uploadInterval.toLong()),
+            sessionTimeout = TimeUnit.MINUTES.toMillis(sessionTimeout.toLong()),
+            logLevel = logLevel,
+            sandboxMode = options.getBoolean("sandboxMode"),
+            collectionEndpoint = options.getString("collectionEndpoint")
+                ?: LyticsConfiguration.DEFAULT_COLLECTION_ENDPOINT,
+            entityEndpoint = options.getString("entityEndpoint")
+                ?: LyticsConfiguration.DEFAULT_ENTITY_ENDPOINT,
+            networkRequestTimeout = TimeUnit.SECONDS.toMillis(requestTimeout.toLong()).toInt()
         )
+
+        Lytics.init(context = context, configuration = config)
     }
 
     // Events
@@ -125,6 +166,19 @@ class SdkModule(reactContext: ReactApplicationContext) :
         Lytics.optOut()
     }
 
+    @ReactMethod
+    fun requestTrackingAuthorization(promise: Promise) {
+        // TODO: change to `enableGAID()` after package updated
+        Lytics.enableIDFA()
+        promise.resolve(true)
+    }
+
+    @ReactMethod
+    fun disableTracking() {
+        // TODO: change to `disableGAID()` after package updated
+        Lytics.disableIDFA()
+    }
+
     // Utility
 
     @ReactMethod
@@ -138,5 +192,12 @@ class SdkModule(reactContext: ReactApplicationContext) :
     }
     companion object {
         const val NAME = "LyticsBridge"
+        const val DEFAULT_MAX_LOAD_RETRY_ATTEMPTS = 1
+        const val DEFAULT_MAX_QUEUE_SIZE = 10
+        const val DEFAULT_MAX_UPLOAD_RETRY_ATTEMPTS = 3
+        const val DEFAULT_NETWORK_REQUEST_TIMEOUT = 30.0
+        const val DEFAULT_SESSION_TIMEOUT = 20.0
+        const val DEFAULT_STREAM = "android_sdk"
+        const val DEFAULT_UPLOAD_INTERVAL = 10.0
     }
 }
