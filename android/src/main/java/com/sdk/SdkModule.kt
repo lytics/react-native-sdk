@@ -1,11 +1,11 @@
 package com.sdk
 
 import android.content.Context
-import com.facebook.react.bridge.ReadableMap
+import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
-import com.facebook.react.bridge.Promise
+import com.facebook.react.bridge.ReadableMap
 import com.lytics.android.events.LyticsConsentEvent
 import com.lytics.android.events.LyticsEvent
 import com.lytics.android.events.LyticsIdentityEvent
@@ -41,8 +41,11 @@ class SdkModule(reactContext: ReactApplicationContext) :
     fun startWithApiToken(apiToken: String, options: ReadableMap) {
         val uploadInterval = options.getDoubleOrNull("uploadInterval") ?: DEFAULT_UPLOAD_INTERVAL
         val sessionTimeout = options.getDoubleOrNull("sessionTimeout") ?: DEFAULT_SESSION_TIMEOUT
-        val requestTimeout = options.getDoubleOrNull("networkRequestTimeout") ?: DEFAULT_NETWORK_REQUEST_TIMEOUT
-        val logLevel = options.getString("logLevel")?.let { LogLevel::class.byNameIgnoreCaseOrNull(it) } ?: LogLevel.NONE
+        val requestTimeout =
+            options.getDoubleOrNull("networkRequestTimeout") ?: DEFAULT_NETWORK_REQUEST_TIMEOUT
+        val logLevel =
+            options.getString("logLevel")?.let { LogLevel::class.byNameIgnoreCaseOrNull(it) }
+                ?: LogLevel.NONE
 
         val config = LyticsConfiguration(
             apiKey = apiToken,
@@ -53,7 +56,7 @@ class SdkModule(reactContext: ReactApplicationContext) :
                 ?: LyticsConfiguration.DEFAULT_ANONYMOUS_IDENTITY_KEY,
             defaultTable = options.getString("defaultTable")
                 ?: LyticsConfiguration.DEFAULT_ENTITY_TABLE,
-            requireConsent = options.getBoolean("requireConsent"),
+            requireConsent = options.getBooleanOrNull("requireConsent") ?: false,
             autoTrackActivityScreens = options.getBooleanOrNull("autoTrackActivityScreens")
                 ?: false,
             autoTrackFragmentScreens = options.getBooleanOrNull("autoTrackFragmentScreens")
@@ -67,7 +70,7 @@ class SdkModule(reactContext: ReactApplicationContext) :
             uploadInterval = TimeUnit.SECONDS.toMillis(uploadInterval.toLong()),
             sessionTimeout = TimeUnit.MINUTES.toMillis(sessionTimeout.toLong()),
             logLevel = logLevel,
-            sandboxMode = options.getBoolean("sandboxMode"),
+            sandboxMode = options.getBooleanOrNull("sandboxMode") ?: false,
             collectionEndpoint = options.getString("collectionEndpoint")
                 ?: LyticsConfiguration.DEFAULT_COLLECTION_ENDPOINT,
             entityEndpoint = options.getString("entityEndpoint")
