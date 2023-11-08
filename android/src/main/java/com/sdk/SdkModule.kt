@@ -30,7 +30,7 @@ class SdkModule(reactContext: ReactApplicationContext) :
     // Properties
 
     @ReactMethod
-    fun hasStartedWithResolve(promise: Promise) {
+    fun hasStarted(promise: Promise) {
         // TODO: implement
         promise.resolve(true)
     }
@@ -38,7 +38,7 @@ class SdkModule(reactContext: ReactApplicationContext) :
     // Configuration
 
     @ReactMethod
-    fun startWithApiToken(apiToken: String, options: ReadableMap) {
+    fun start(apiToken: String, options: ReadableMap) {
         val uploadInterval = options.getDoubleOrNull("uploadInterval") ?: DEFAULT_UPLOAD_INTERVAL
         val sessionTimeout = options.getDoubleOrNull("sessionTimeout") ?: DEFAULT_SESSION_TIMEOUT
         val requestTimeout =

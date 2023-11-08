@@ -20,7 +20,7 @@ const Sdk = NativeModules.LyticsBridge
 // Properties
 
 export function hasStarted(): Promise<boolean> {
-  return Sdk.hasStartedWithResolve();
+  return Sdk.hasStarted();
 }
 
 // Configuration
@@ -30,5 +30,5 @@ export type LyticsConfiguration = {
 };
 
 export function start(apiToken: string, options: LyticsConfiguration) {
-  Sdk.startWithApiToken(apiToken, options);
+  Sdk.start(apiToken, options);
 }
