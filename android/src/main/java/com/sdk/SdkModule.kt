@@ -6,6 +6,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
+import com.lytics.android.EntityIdentifier
 import com.lytics.android.events.LyticsConsentEvent
 import com.lytics.android.events.LyticsEvent
 import com.lytics.android.events.LyticsIdentityEvent
@@ -13,11 +14,17 @@ import com.lytics.android.logging.LogLevel
 import com.lytics.android.Lytics
 import com.lytics.android.LyticsConfiguration
 import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 class SdkModule(reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext) {
 
     private val context: Context
+
+    private val moduleScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
     init {
         context = reactContext.getApplicationContext()
@@ -155,6 +162,39 @@ class SdkModule(reactContext: ReactApplicationContext) :
                 properties = properties?.toHashMap()
             )
         )
+    }
+
+    // Personalization
+
+    @ReactMethod
+    fun getProfile(promise: Promise) {
+        getProfile(
+            identifier = null,
+            promise = promise
+        )
+    }
+
+    @ReactMethod
+    fun getProfile(name: String, value: String, promise: Promise) {
+        getProfile(
+            identifier = EntityIdentifier(name = name, value = value),
+            promise = promise
+        )
+    }
+
+    private fun getProfile(identifier: EntityIdentifier?, promise: Promise) {
+        moduleScope.launch {
+            val response = Lytics.getProfile(identifier)?.let {
+                mapOf(
+                    "identifiers" to it.identifiers,
+                    "attributes" to it.attributes,
+                    "consent" to it.consent,
+                    "profile" to it.profile
+                )
+            }
+
+            promise.resolve(response)
+        }
     }
 
     // Tracking
