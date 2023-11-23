@@ -24,10 +24,10 @@ class SdkModule(reactContext: ReactApplicationContext) :
 
     private val context: Context
 
-    private val moduleScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     init {
-        context = reactContext.getApplicationContext()
+        context = reactContext.applicationContext
     }
 
     override fun getName(): String {
@@ -199,7 +199,7 @@ class SdkModule(reactContext: ReactApplicationContext) :
     }
 
     private fun getProfile(identifier: EntityIdentifier?, promise: Promise) {
-        moduleScope.launch {
+        scope.launch {
             promise.resolve(Lytics.getProfile(identifier)?.toHashMap())
         }
     }
