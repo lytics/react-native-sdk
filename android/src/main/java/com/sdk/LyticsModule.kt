@@ -19,7 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
-class SdkModule(reactContext: ReactApplicationContext) :
+class LyticsModule(reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext) {
 
     private val context: Context
@@ -240,6 +240,7 @@ class SdkModule(reactContext: ReactApplicationContext) :
     fun reset() {
         Lytics.reset()
     }
+
     companion object {
         const val NAME = "LyticsBridge"
         const val DEFAULT_MAX_LOAD_RETRY_ATTEMPTS = 1
