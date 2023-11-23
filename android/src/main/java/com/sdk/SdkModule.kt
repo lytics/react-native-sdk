@@ -42,6 +42,22 @@ class SdkModule(reactContext: ReactApplicationContext) :
         promise.resolve(true)
     }
 
+    @ReactMethod
+    fun isOptedIn(promise: Promise) {
+        promise.resolve(Lytics.isOptedIn)
+    }
+
+    @ReactMethod
+    fun isTrackingEnabled(promise: Promise) {
+        // TODO: change to ` isGAIDEnabled` after package updated
+        promise.resolve(Lytics.isIDFAEnabled)
+    }
+
+    @ReactMethod
+    fun user(promise: Promise) {
+        promise.resolve(Lytics.currentUser?.toHashMap())
+    }
+
     // Configuration
 
     @ReactMethod
@@ -184,16 +200,7 @@ class SdkModule(reactContext: ReactApplicationContext) :
 
     private fun getProfile(identifier: EntityIdentifier?, promise: Promise) {
         moduleScope.launch {
-            val response = Lytics.getProfile(identifier)?.let {
-                mapOf(
-                    "identifiers" to it.identifiers,
-                    "attributes" to it.attributes,
-                    "consent" to it.consent,
-                    "profile" to it.profile
-                )
-            }
-
-            promise.resolve(response)
+            promise.resolve(Lytics.getProfile(identifier)?.toHashMap())
         }
     }
 

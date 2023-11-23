@@ -22,7 +22,7 @@ public final class LyticsBridge: NSObject {
     }
 
     // MARK: - Properties
-    
+
     @objc(hasStarted:reject:)
     public func hasStarted(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         resolve(lytics.hasStarted)
@@ -33,8 +33,8 @@ public final class LyticsBridge: NSObject {
         resolve(lytics.isOptedIn)
     }
 
-    @objc(isIDFAEnabled:reject:)
-    public func isIDFAEnabled(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    @objc(isTrackingEnabled:reject:)
+    public func isTrackingEnabled(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         resolve(lytics.isIDFAEnabled)
     }
 

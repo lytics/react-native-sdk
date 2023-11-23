@@ -1,6 +1,7 @@
 package com.sdk
 
 import com.facebook.react.bridge.ReadableMap
+import com.lytics.android.LyticsUser
 import com.lytics.android.logging.LogLevel
 import kotlin.reflect.KClass
 
@@ -30,4 +31,13 @@ fun ReadableMap.getIntOrNull(key: String): Int? {
 
 fun KClass<LogLevel>.byNameIgnoreCaseOrNull(level: String): LogLevel? {
     return LogLevel.values().firstOrNull { it.name.equals(level, true) }
+}
+
+fun LyticsUser.toHashMap(): HashMap<String, Any?> {
+    return hashMapOf(
+        "identifiers" to this.identifiers,
+        "attributes" to this.attributes,
+        "consent" to this.consent,
+        "profile" to this.profile
+    )
 }
