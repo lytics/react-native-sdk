@@ -51,7 +51,7 @@ def supportsNamespace() {
 
 android {
   if (supportsNamespace()) {
-    namespace "com.sdk"
+    namespace "com.lytics.react_native"
 
     sourceSets {
       main {
@@ -105,6 +105,6 @@ if (isNewArchitectureEnabled()) {
   react {
     jsRootDir = file("../src/")
     libraryName = "Sdk"
-    codegenJavaPackageName = "com.sdk"
+    codegenJavaPackageName = "com.lytics.react_native"
   }
 }

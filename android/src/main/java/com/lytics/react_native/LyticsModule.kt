@@ -1,4 +1,4 @@
-package com.sdk
+package com.lytics.react_native
 
 import android.content.Context
 import com.facebook.react.bridge.Promise

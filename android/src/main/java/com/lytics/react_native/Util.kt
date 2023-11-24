@@ -1,4 +1,4 @@
-package com.sdk
+package com.lytics.react_native
 
 import com.facebook.react.bridge.ReadableMap
 import com.lytics.android.LyticsUser
