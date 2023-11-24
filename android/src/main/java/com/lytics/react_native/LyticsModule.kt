@@ -49,8 +49,7 @@ class LyticsModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun isTrackingEnabled(promise: Promise) {
-        // TODO: change to ` isGAIDEnabled` after package updated
-        promise.resolve(Lytics.isIDFAEnabled)
+        promise.resolve(Lytics.isGAIDEnabled)
     }
 
     @ReactMethod
@@ -218,15 +217,13 @@ class LyticsModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun requestTrackingAuthorization(promise: Promise) {
-        // TODO: change to `enableGAID()` after package updated
-        Lytics.enableIDFA()
+        Lytics.enableGAID()
         promise.resolve(true)
     }
 
     @ReactMethod
     fun disableTracking() {
-        // TODO: change to `disableGAID()` after package updated
-        Lytics.disableIDFA()
+        Lytics.disableGAID()
     }
 
     // Utility
