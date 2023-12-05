@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { NavigationContainer } from '@react-navigation/native';
 import { StyleSheet, View, Text } from 'react-native';
 import { start, hasStarted } from 'react-native-sdk';
 
@@ -18,9 +19,13 @@ export default function App() {
   console.log('hasStarted:', result);
 
   return (
-    <View style={styles.container}>
-      <Text>Has Started: {result}</Text>
-    </View>
+    <NavigationContainer>
+      {
+        <View style={styles.container}>
+          <Text>Has Started: {result}</Text>
+        </View>
+      }
+    </NavigationContainer>
   );
 }
 
