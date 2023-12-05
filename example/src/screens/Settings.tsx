@@ -1,12 +1,16 @@
 import * as React from 'react';
+import { View, Button } from 'react-native';
 
-import { View, Text } from 'react-native';
 import { styles } from '../components/Styles';
 
 export function SettingsScreen() {
+  const handleReset = () => {
+    console.log('Reset');
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Settings</Text>
+      <Button title="Reset Demo App" onPress={handleReset} />
     </View>
   );
 }

@@ -1,14 +1,12 @@
 import * as React from 'react';
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { start, hasStarted } from 'react-native-sdk';
 
-import { EventsScreen } from './screens/Events';
-import { LoginScreen } from './screens/Login';
+import { EventsTabNavigator } from './navigation/EventsTabNavigator';
+import { LoginTabNavigator } from './navigation/LoginTabNavigator';
 import { ProfileScreen } from './screens/Profile';
 import { SettingsScreen } from './screens/Settings';
-
-import { start, hasStarted } from 'react-native-sdk';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,8 +27,16 @@ export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="Events" component={EventsScreen} />
-        <Tab.Screen name="Login" component={LoginScreen} />
+        <Tab.Screen
+          name="Events"
+          component={EventsTabNavigator}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name="Login"
+          component={LoginTabNavigator}
+          options={{ headerShown: false }}
+        />
         <Tab.Screen name="Profile" component={ProfileScreen} />
         <Tab.Screen name="Settings" component={SettingsScreen} />
       </Tab.Navigator>
