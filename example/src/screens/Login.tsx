@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import { styles } from '../components/Styles';
+import type { LoginStackParams } from '../navigation/LoginStackParams';
 
-export function LoginScreen({ navigation: { navigate } }) {
+export function LoginScreen({
+  navigation,
+}: NativeStackScreenProps<LoginStackParams, 'Login'>) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -12,7 +16,7 @@ export function LoginScreen({ navigation: { navigate } }) {
   };
 
   const handleRegister = () => {
-    navigate('SignUp');
+    navigation.navigate('SignUp');
   };
 
   return (

@@ -3,11 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { EventDetailScreen } from '../screens/EventDetail';
 import { EventsScreen } from '../screens/Events';
-
-export type EventsStackParams = {
-  Events: undefined;
-  EventDetail: undefined;
-};
+import type { EventsStackParams } from './EventsStackParams';
 
 const EventsStack = createNativeStackNavigator<EventsStackParams>();
 
