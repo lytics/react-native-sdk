@@ -28,4 +28,7 @@ export const styles = StyleSheet.create({
   label: {
     marginLeft: 8,
   },
+  scrollView: {
+    marginHorizontal: 16,
+  },
 });

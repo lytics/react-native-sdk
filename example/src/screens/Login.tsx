@@ -36,6 +36,7 @@ export function LoginScreen({
         onChangeText={(text) => setPassword(text)}
       />
       <Button title="Login" onPress={handleLogin} />
+      <Text>Don't have an account?</Text>
       <Button title="Register" onPress={handleRegister} />
     </View>
   );
