@@ -9,7 +9,7 @@ const LoginStack = createNativeStackNavigator<LoginStackParams>();
 
 export const LoginTabNavigator = () => {
   return (
-    <LoginStack.Navigator initialRouteName="Login">
+    <LoginStack.Navigator>
       <LoginStack.Screen name="Login" component={LoginScreen} />
       <LoginStack.Screen name="SignUp" component={SignUpScreen} />
     </LoginStack.Navigator>
