@@ -17,6 +17,33 @@ const Sdk = NativeModules.LyticsBridge
       }
     );
 
+// Types
+
+export enum LogLevel {
+  error,
+  warning,
+  info,
+  debug,
+}
+
+export type LyticsConfiguration = {
+  collectionEndpoint?: URL;
+  entityEndpoint?: URL;
+  defaultStream?: string;
+  primaryIdentityKey?: string;
+  anonymousIdentityKey?: string;
+  trackApplicationLifecycleEvents?: boolean;
+  uploadInterval?: number;
+  maxQueueSize?: number;
+  maxLoadRetryAttempts?: number;
+  maxUploadRetryAttempts?: number;
+  sessionDuration?: number;
+  enableSandbox?: boolean;
+  requireConsent?: boolean;
+  logLevel?: LogLevel;
+  defaultTable?: string;
+};
+
 // Properties
 
 export function hasStarted(): Promise<boolean> {

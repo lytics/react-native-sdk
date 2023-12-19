@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { start, hasStarted } from 'react-native-sdk';
+import { start, hasStarted, LogLevel } from 'react-native-sdk';
 
 import { EventsTabNavigator } from './navigation/EventsTabNavigator';
 import { LoginTabNavigator } from './navigation/LoginTabNavigator';
@@ -18,7 +18,9 @@ export default function App() {
 
   React.useEffect(() => {
     // Configure the SDK at startup
-    start(apiToken, {});
+    start(apiToken, {
+      logLevel: LogLevel.debug,
+    });
     hasStarted().then(setResult);
   }, []);
 
