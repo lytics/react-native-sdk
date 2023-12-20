@@ -44,6 +44,25 @@ export type LyticsConfiguration = {
   defaultTable?: string;
 };
 
+export type JSONValue = boolean | number | string | null | JSONArray | JSONMap;
+
+export interface JSONMap {
+  [key: string]: JSONValue;
+}
+
+export type JSONArray = Array<JSONValue>;
+
+export type EntityIdentifier = {
+  name: string;
+  value: string;
+};
+
+export type LyticsUser = {
+  identifiers: JSONMap;
+  attributes: JSONMap;
+  profile: JSONMap;
+};
+
 // Properties
 
 export function hasStarted(): Promise<boolean> {
@@ -58,4 +77,65 @@ export type LyticsConfiguration = {
 
 export function start(apiToken: string, options: LyticsConfiguration) {
   Sdk.start(apiToken, options);
+}
+
+// Events
+export interface TrackParams {
+  stream?: string;
+  name?: string;
+  identifiers?: JSONMap;
+  properties?: JSONMap;
+}
+
+export function track(params: TrackParams) {
+  Sdk.track(params.stream, params.name, params.identifiers, params.properties);
+}
+
+export interface IdentifyParams {
+  stream?: string;
+  name?: string;
+  identifiers?: JSONMap;
+  attributes?: JSONMap;
+  shouldSend?: boolean;
+}
+
+export function identify(params: IdentifyParams) {
+  Sdk.identify(
+    params.stream,
+    params.name,
+    params.identifiers,
+    params.attributes,
+    params.shouldSend ?? true
+  );
+}
+
+export interface ConsentParams {
+  stream?: string;
+  name?: string;
+  identifiers?: JSONMap;
+  attributes?: JSONMap;
+  consent?: JSONMap;
+  shouldSend?: boolean;
+}
+
+export function consent(params: ConsentParams) {
+  Sdk.consent(
+    params.stream,
+    params.name,
+    params.identifiers,
+    params.attributes,
+    params.consent,
+    params.shouldSend ?? true
+  );
+}
+
+export interface ScreenParams {
+  stream?: string;
+  name?: string;
+  identifiers?: JSONMap;
+  properties?: JSONMap;
+}
+
+export function screen(params: ScreenParams) {
+  Sdk.screen(params.stream, params.name, params.identifiers, params.properties);
 }
