@@ -58,11 +58,6 @@ export type JSONMap = {
   [key: string]: JSONValue;
 };
 
-export type EntityIdentifier = {
-  name: string;
-  value: string;
-};
-
 export type LyticsUser = {
   identifiers: JSONMap;
   attributes: JSONMap;
@@ -144,4 +139,26 @@ export interface ScreenParams {
 
 export function screen(params: ScreenParams) {
   Sdk.screen(params.stream, params.name, params.identifiers, params.properties);
+}
+
+// Personalization
+
+export type EntityIdentifier = {
+  name: string;
+  value: string;
+};
+
+export function getProfile(identifier?: EntityIdentifier): Promise<LyticsUser> {
+  return new Promise((resolve, reject) => {
+    if (identifier) {
+      Sdk.getProfileByIdentifier(
+        identifier.name,
+        identifier.value,
+        resolve,
+        reject
+      );
+    } else {
+      Sdk.getProfile(resolve, reject);
+    }
+  });
 }
