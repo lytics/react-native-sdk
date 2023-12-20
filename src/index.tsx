@@ -70,11 +70,8 @@ export function hasStarted(): Promise<boolean> {
   return Sdk.hasStarted();
 }
 
-// Configuration
 
-export type LyticsConfiguration = {
-  [key: string]: any;
-};
+// Configuration
 
 export function start(apiToken: string, options: LyticsConfiguration) {
   Sdk.start(apiToken, options);
