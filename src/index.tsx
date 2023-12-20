@@ -20,10 +20,12 @@ const Sdk = NativeModules.LyticsBridge
 // Types
 
 export enum LogLevel {
-  error,
-  warning,
-  info,
+  verbose,
   debug,
+  info,
+  warning,
+  error,
+  none,
 }
 
 export type LyticsConfiguration = {

@@ -29,8 +29,8 @@ fun ReadableMap.getIntOrNull(key: String): Int? {
     }
 }
 
-fun KClass<LogLevel>.byNameIgnoreCaseOrNull(level: String): LogLevel? {
-    return LogLevel.values().firstOrNull { it.name.equals(level, true) }
+fun KClass<LogLevel>.fromLelvelOrNull(level: Int): LogLevel? {
+    return LogLevel.values().firstOrNull { it.ordinal == level }
 }
 
 fun LyticsUser.toHashMap(): HashMap<String, Any?> {
