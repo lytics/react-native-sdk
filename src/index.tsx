@@ -46,13 +46,17 @@ export type LyticsConfiguration = {
   defaultTable?: string;
 };
 
-export type JSONValue = boolean | number | string | null | JSONArray | JSONMap;
+export type JSONValue =
+  | boolean
+  | number
+  | string
+  | null
+  | JSONValue[]
+  | JSONMap;
 
-export interface JSONMap {
+export type JSONMap = {
   [key: string]: JSONValue;
-}
-
-export type JSONArray = Array<JSONValue>;
+};
 
 export type EntityIdentifier = {
   name: string;
