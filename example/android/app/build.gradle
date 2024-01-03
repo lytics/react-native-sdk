@@ -73,9 +73,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.sdkexample"
+    namespace "com.lytics.react_native.example"
     defaultConfig {
-        applicationId "com.sdkexample"
+        applicationId "com.lytics.react_native.example"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

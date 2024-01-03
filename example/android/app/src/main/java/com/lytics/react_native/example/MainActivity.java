@@ -1,4 +1,4 @@
-package com.sdkexample;
+package com.lytics.react_native.example;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

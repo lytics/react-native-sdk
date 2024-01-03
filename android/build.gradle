@@ -51,7 +51,7 @@ def supportsNamespace() {
 
 android {
   if (supportsNamespace()) {
-    namespace "com.sdk"
+    namespace "com.lytics.react_native"
 
     sourceSets {
       main {
@@ -87,6 +87,7 @@ android {
 repositories {
   mavenCentral()
   google()
+  maven { url 'https://jitpack.io' }
 }
 
 def kotlin_version = getExtOrDefault("kotlinVersion")
@@ -97,12 +98,14 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  // FIXME: specify stable version
+  implementation 'com.github.lytics:android-sdk:main-SNAPSHOT'
 }
 
 if (isNewArchitectureEnabled()) {
   react {
     jsRootDir = file("../src/")
     libraryName = "Sdk"
-    codegenJavaPackageName = "com.sdk"
+    codegenJavaPackageName = "com.lytics.react_native"
   }
 }

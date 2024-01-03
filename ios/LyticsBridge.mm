@@ -12,55 +12,55 @@
 
 #pragma mark - Properties
 
-RCT_EXTERN_METHOD(hasStartedWithResolve:(RCTPromiseResolveBlock)resolve
+RCT_EXTERN_METHOD(hasStarted:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(isOptedInResolve:(RCTPromiseResolveBlock)resolve
+RCT_EXTERN_METHOD(isOptedIn:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(isIDFAEnabledWithResolve:(RCTPromiseResolveBlock)resolve
+RCT_EXTERN_METHOD(isIDFAEnabled:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(userWithResolve:(RCTPromiseResolveBlock)resolve
+RCT_EXTERN_METHOD(user:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
 
 #pragma mark - Configuration
 
-RCT_EXTERN_METHOD(startWithApiToken:(NSString *) apiToken
+RCT_EXTERN_METHOD(start:(NSString *) apiToken
                   configuration:(NSDictionary<NSString *,id> *) configuration)
 
 #pragma mark - Events
 
-RCT_EXTERN_METHOD(trackWithStream:(NSString *) stream
+RCT_EXTERN_METHOD(track:(NSString *) stream
                   name:(NSString *) name
                   identifiers:(NSDictionary<NSString *,id> *) identifiers
                   properties:(NSDictionary<NSString *,id> *) properties)
 
-RCT_EXTERN_METHOD(identifyWithStream:(NSString *) stream
+RCT_EXTERN_METHOD(identify:(NSString *) stream
                   name:(NSString *) name
                   identifiers:(NSDictionary<NSString *,id> *) identifiers
                   attributes:(NSDictionary<NSString *,id> *) attributes
                   shouldSend:(BOOL) shouldSend)
 
 
-RCT_EXTERN_METHOD(consentWithStream:(NSString *) stream
+RCT_EXTERN_METHOD(consent:(NSString *) stream
                   name:(NSString *) name
                   identifiers:(NSDictionary<NSString *,id> *) identifiers
                   attributes:(NSDictionary<NSString *,id> *) attributes
                   consent:(NSDictionary<NSString *,id> *) consent
                   shouldSend:(BOOL) shouldSend)
 
-RCT_EXTERN_METHOD(screenWithStream:(NSString *) stream
+RCT_EXTERN_METHOD(screen:(NSString *) stream
                   name:(NSString *) name
                   identifiers:(NSDictionary<NSString *,id> *) identifiers
                   properties:(NSDictionary<NSString *,id> *) properties)
 
 #pragma mark - Personalization
 
-RCT_EXTERN_METHOD(getProfileWithResolve:(RCTPromiseResolveBlock)resolve
+RCT_EXTERN_METHOD(getProfile:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(getProfileWithIdentifierName:(NSString *) identifierName
+RCT_EXTERN_METHOD(getProfile:(NSString *) identifierName
                   identifierValue:(NSString *) identifierValue
                   resolve:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
@@ -71,14 +71,14 @@ RCT_EXTERN_METHOD(optIn)
 
 RCT_EXTERN_METHOD(optOut)
 
-RCT_EXTERN_METHOD(requestTrackingAuthorizationWithResolve:(RCTPromiseResolveBlock)resolve
+RCT_EXTERN_METHOD(requestTrackingAuthorization:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(disableTracking)
 
 #pragma mark - Utility
 
-RCT_EXTERN_METHOD(identifierWithResolve:(RCTPromiseResolveBlock)resolve
+RCT_EXTERN_METHOD(identifier:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(dispatch)

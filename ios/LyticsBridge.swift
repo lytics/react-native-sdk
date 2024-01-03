@@ -22,23 +22,23 @@ public final class LyticsBridge: NSObject {
     }
 
     // MARK: - Properties
-    
-    @objc
+
+    @objc(hasStarted:reject:)
     public func hasStarted(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         resolve(lytics.hasStarted)
     }
 
-    @objc
+    @objc(isOptedIn:reject:)
     public func isOptedIn(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         resolve(lytics.isOptedIn)
     }
 
-    @objc
-    public func isIDFAEnabled(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    @objc(isTrackingEnabled:reject:)
+    public func isTrackingEnabled(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         resolve(lytics.isIDFAEnabled)
     }
 
-    @objc
+    @objc(user:reject:)
     public func user(
         resolve: @escaping RCTPromiseResolveBlock,
         reject: @escaping RCTPromiseRejectBlock
@@ -56,7 +56,7 @@ public final class LyticsBridge: NSObject {
 
     // MARK: - Configuration
 
-    @objc
+    @objc(start:configuration:)
     public func start(
         apiToken: String,
         configuration: [String: Any]?
@@ -138,7 +138,7 @@ public final class LyticsBridge: NSObject {
 
     // MARK: - Events
 
-    @objc
+    @objc(track:name:identifiers:properties:)
     public func track(
         stream: String? = nil,
         name: String? = nil,
@@ -152,7 +152,7 @@ public final class LyticsBridge: NSObject {
             properties: AnyCodable(properties))
     }
 
-    @objc
+    @objc(identify:name:identifiers:attributes:shouldSend:)
     public func identify(
         stream: String? = nil,
         name: String? = nil,
@@ -168,7 +168,7 @@ public final class LyticsBridge: NSObject {
             shouldSend: shouldSend)
     }
 
-    @objc
+    @objc(consent:name:identifiers:attributes:consent:shouldSend:)
     public func consent(
         stream: String? = nil,
         name: String? = nil,
@@ -185,7 +185,7 @@ public final class LyticsBridge: NSObject {
             consent: AnyCodable(consent))
     }
 
-    @objc
+    @objc(screen:name:identifiers:properties:)
     public func screen(
         stream: String? = nil,
         name: String? = nil,
@@ -201,7 +201,7 @@ public final class LyticsBridge: NSObject {
 
     // MARK: - Personalization
 
-    @objc
+    @objc(getProfile:reject:)
     public func getProfile(
         resolve: @escaping RCTPromiseResolveBlock,
         reject: @escaping RCTPromiseRejectBlock
@@ -217,7 +217,7 @@ public final class LyticsBridge: NSObject {
         }
     }
 
-    @objc
+    @objc(getProfile:identifierValue:resolve:reject:)
     public func getProfile(
         identifierName: String,
         identifierValue: String,
@@ -250,7 +250,7 @@ public final class LyticsBridge: NSObject {
         lytics.optOut()
     }
 
-    @objc
+    @objc(requestTrackingAuthorization:reject:)
     public func requestTrackingAuthorization(
         resolve: @escaping RCTPromiseResolveBlock,
         reject: @escaping RCTPromiseRejectBlock
@@ -267,7 +267,7 @@ public final class LyticsBridge: NSObject {
 
     // MARK: - Utility
 
-    @objc
+    @objc(identifier:reject:)
     public func identifier(
         resolve: @escaping RCTPromiseResolveBlock,
         reject: @escaping RCTPromiseRejectBlock

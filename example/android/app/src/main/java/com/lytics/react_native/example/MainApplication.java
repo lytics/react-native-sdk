@@ -1,4 +1,4 @@
-package com.sdkexample;
+package com.lytics.react_native.example;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
