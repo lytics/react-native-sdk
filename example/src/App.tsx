@@ -1,7 +1,14 @@
 import * as React from 'react';
-
-import { StyleSheet, View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { start, hasStarted } from 'react-native-sdk';
+
+import { EventsTabNavigator } from './navigation/EventsTabNavigator';
+import { LoginTabNavigator } from './navigation/LoginTabNavigator';
+import { ProfileScreen } from './screens/Profile';
+import { SettingsScreen } from './screens/Settings';
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [result, setResult] = React.useState<boolean | undefined>();
@@ -18,21 +25,21 @@ export default function App() {
   console.log('hasStarted:', result);
 
   return (
-    <View style={styles.container}>
-      <Text>Has Started: {result}</Text>
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen
+          name="Events"
+          component={EventsTabNavigator}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name="Login"
+          component={LoginTabNavigator}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen name="Profile" component={ProfileScreen} />
+        <Tab.Screen name="Settings" component={SettingsScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
-  },
-});
