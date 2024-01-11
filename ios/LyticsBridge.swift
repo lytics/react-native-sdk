@@ -106,7 +106,6 @@ public final class LyticsBridge: NSObject {
                 lyticsConfig.sessionDuration = sessionDuration
             }
 
-            // TODO: do `Bool`s work as expected?
             if let enableSandbox = configuration["enableSandbox"] as? Bool {
                 lyticsConfig.enableSandbox = enableSandbox
             }
@@ -115,15 +114,17 @@ public final class LyticsBridge: NSObject {
                 lyticsConfig.requireConsent = requireConsent
             }
 
-            if let logLevel = configuration["logLevel"] as? String {
+            if let logLevel = configuration["logLevel"] as? Int {
                 switch logLevel {
-                case "debug":
+                // .verbose, .debug
+                case 0, 1:
                     lyticsConfig.logLevel = .debug
-                case "info":
+                case 2:
                     lyticsConfig.logLevel = .info
-                case "error":
+                // .warning, .error
+                case 3, 4:
                     lyticsConfig.logLevel = .error
-                case "none":
+                case 5:
                     lyticsConfig.logLevel = .none
                 default:
                     break
