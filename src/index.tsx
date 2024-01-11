@@ -71,6 +71,17 @@ export function hasStarted(): Promise<boolean> {
   return Sdk.hasStarted();
 }
 
+export function isOptedIn(): Promise<boolean> {
+  return Sdk.isOptedIn();
+}
+
+export function isTrackingEnabled(): Promise<boolean> {
+  return Sdk.isTrackingEnabled();
+}
+
+export function user(): Promise<LyticsUser> {
+  return Sdk.user();
+}
 
 // Configuration
 
