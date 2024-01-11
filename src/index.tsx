@@ -59,9 +59,10 @@ export type JSONMap = {
 };
 
 export type LyticsUser = {
-  identifiers: JSONMap;
-  attributes: JSONMap;
-  profile: JSONMap;
+  identifiers?: JSONMap;
+  attributes?: JSONMap;
+  consent?: JSONMap;
+  profile?: JSONMap;
 };
 
 // Properties
