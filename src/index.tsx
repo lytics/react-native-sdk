@@ -170,4 +170,35 @@ export function getProfile(identifier?: EntityIdentifier): Promise<LyticsUser> {
       Sdk.getProfile(resolve, reject);
     }
   });
+
+// Tracking
+
+export function optIn() {
+  Sdk.optIn();
+}
+
+export function optOut() {
+  Sdk.optOut();
+}
+
+export function requestTrackingAuthorization(): Promise<boolean> {
+  return Sdk.requestTrackingAuthorization();
+}
+
+export function disableTracking() {
+  Sdk.disableTracking();
+}
+
+// Utility
+
+export function identifier(): Promise<string> {
+  return Sdk.identifier();
+}
+
+export function dispatch() {
+  Sdk.dispatch();
+}
+
+export function reset() {
+  Sdk.reset();
 }
