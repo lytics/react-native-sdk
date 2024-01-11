@@ -18,7 +18,7 @@ RCT_EXTERN_METHOD(hasStarted:(RCTPromiseResolveBlock)resolve
 RCT_EXTERN_METHOD(isOptedIn:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(isIDFAEnabled:(RCTPromiseResolveBlock)resolve
+RCT_EXTERN_METHOD(isTrackingEnabled:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(user:(RCTPromiseResolveBlock)resolve
