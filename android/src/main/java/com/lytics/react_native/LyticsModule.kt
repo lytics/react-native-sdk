@@ -54,7 +54,7 @@ class LyticsModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun user(promise: Promise) {
-        promise.resolve(Lytics.currentUser?.toHashMap())
+        promise.resolve(Lytics.currentUser?.toReadableMap())
     }
 
     // Configuration
@@ -199,7 +199,7 @@ class LyticsModule(reactContext: ReactApplicationContext) :
 
     private fun getProfile(identifier: EntityIdentifier?, promise: Promise) {
         scope.launch {
-            promise.resolve(Lytics.getProfile(identifier)?.toHashMap())
+            promise.resolve(Lytics.getProfile(identifier)?.toReadableMap())
         }
     }
 
