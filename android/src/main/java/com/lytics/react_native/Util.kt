@@ -29,7 +29,7 @@ fun ReadableMap.getIntOrNull(key: String): Int? {
     }
 }
 
-fun KClass<LogLevel>.fromLelvelOrNull(level: Int): LogLevel? {
+fun KClass<LogLevel>.fromLevelOrNull(level: Int): LogLevel? {
     return LogLevel.values().firstOrNull { it.ordinal == level }
 }
 

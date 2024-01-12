@@ -66,7 +66,7 @@ class LyticsModule(reactContext: ReactApplicationContext) :
         val requestTimeout =
             options.getDoubleOrNull("networkRequestTimeout") ?: DEFAULT_NETWORK_REQUEST_TIMEOUT
         val logLevel =
-            options.getIntOrNull("logLevel")?.let { LogLevel::class.fromLelvelOrNull(it) }
+            options.getIntOrNull("logLevel")?.let { LogLevel::class.fromLevelOrNull(it) }
                 ?: LogLevel.NONE
 
         val config = LyticsConfiguration(
