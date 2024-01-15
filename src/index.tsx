@@ -158,18 +158,8 @@ export type EntityIdentifier = {
 };
 
 export function getProfile(identifier?: EntityIdentifier): Promise<LyticsUser> {
-  return new Promise((resolve, reject) => {
-    if (identifier) {
-      Sdk.getProfileByIdentifier(
-        identifier.name,
-        identifier.value,
-        resolve,
-        reject
-      );
-    } else {
-      Sdk.getProfile(resolve, reject);
-    }
-  });
+  return Sdk.getProfile(identifier?.name, identifier?.value);
+}
 
 // Tracking
 

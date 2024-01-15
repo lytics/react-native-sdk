@@ -202,35 +202,22 @@ public final class LyticsBridge: NSObject {
 
     // MARK: - Personalization
 
-    @objc(getProfile:reject:)
-    public func getProfile(
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        Task {
-            do {
-                let profile = try await lytics.getProfile()
-                let dictionary = try convert(profile)
-                resolve(dictionary)
-            } catch {
-                reject("failure", error.localizedDescription, error)
-            }
-        }
-    }
-
     @objc(getProfile:identifierValue:resolve:reject:)
     public func getProfile(
-        identifierName: String,
-        identifierValue: String,
+        identifierName: String?,
+        identifierValue: String?,
         resolve: @escaping RCTPromiseResolveBlock,
         reject: @escaping RCTPromiseRejectBlock
     ) {
         Task {
             do {
-                let profile = try await lytics.getProfile(
-                    EntityIdentifier(
+                var identifier: EntityIdentifier?
+                if let identifierName, let identifierValue {
+                    identifier = EntityIdentifier(
                         name: identifierName,
-                        value: identifierValue))
+                        value: identifierValue)
+                }
+                let profile = try await lytics.getProfile(identifier)
                 let dictionary = try convert(profile)
                 resolve(dictionary)
             } catch {

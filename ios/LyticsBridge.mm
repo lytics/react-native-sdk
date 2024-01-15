@@ -57,9 +57,6 @@ RCT_EXTERN_METHOD(screen:(NSString *) stream
 
 #pragma mark - Personalization
 
-RCT_EXTERN_METHOD(getProfile:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject)
-
 RCT_EXTERN_METHOD(getProfile:(NSString *) identifierName
                   identifierValue:(NSString *) identifierValue
                   resolve:(RCTPromiseResolveBlock)resolve
