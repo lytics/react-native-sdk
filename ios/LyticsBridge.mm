@@ -26,8 +26,9 @@ RCT_EXTERN_METHOD(user:(RCTPromiseResolveBlock)resolve
 
 #pragma mark - Configuration
 
-RCT_EXTERN_METHOD(start:(NSString *) apiToken
-                  configuration:(NSDictionary<NSString *,id> *) configuration)
+RCT_EXTERN_METHOD(start:(NSDictionary<NSString *,id> *) configuration
+                  resolve:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject)
 
 #pragma mark - Events
 

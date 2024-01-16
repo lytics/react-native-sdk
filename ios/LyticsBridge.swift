@@ -56,16 +56,18 @@ public final class LyticsBridge: NSObject {
 
     // MARK: - Configuration
 
-    @objc(start:configuration:)
+    @objc(start:resolve:reject:)
     public func start(
-        apiToken: String,
-        configuration: [String: Any]?
+        configuration: [String: Any],
+        resolve: @escaping RCTPromiseResolveBlock,
+        reject: @escaping RCTPromiseRejectBlock
     ) {
-        lytics.start(apiToken: apiToken) { lyticsConfig in
-            guard let configuration, !configuration.isEmpty else {
-                return
-            }
+        guard let apiToken = configuration["apiToken"] as? String else {
+            reject("invalid_api_token", "Missing or Invalid API Token", nil)
+            return
+        }
 
+        lytics.start(apiToken: apiToken) { lyticsConfig in
             if let urlString = configuration["collectionEndpoint"] as? String,
                let collectionEndpoint = URL(string: urlString) {
                 lyticsConfig.collectionEndpoint = collectionEndpoint
@@ -136,6 +138,7 @@ public final class LyticsBridge: NSObject {
             if let defaultTable = configuration["defaultTable"] as? String {
                 lyticsConfig.defaultTable = defaultTable
             }
+            resolve(())
         }
     }
 
