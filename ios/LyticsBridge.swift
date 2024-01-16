@@ -23,25 +23,34 @@ public final class LyticsBridge: NSObject {
 
     // MARK: - Properties
 
-    @objc(hasStarted:reject:)
-    public func hasStarted(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    @objc(hasStarted:rejecter:)
+    public func hasStarted(
+        resolver resolve: RCTPromiseResolveBlock,
+        rejecter reject: RCTPromiseRejectBlock
+    ) {
         resolve(lytics.hasStarted)
     }
 
-    @objc(isOptedIn:reject:)
-    public func isOptedIn(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    @objc(isOptedIn:rejecter:)
+    public func isOptedIn(
+        resolver resolve: RCTPromiseResolveBlock,
+        rejecter reject: RCTPromiseRejectBlock
+    ) {
         resolve(lytics.isOptedIn)
     }
 
-    @objc(isTrackingEnabled:reject:)
-    public func isTrackingEnabled(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    @objc(isTrackingEnabled:rejecter:)
+    public func isTrackingEnabled(
+        resolver resolve: RCTPromiseResolveBlock,
+        rejecter reject: RCTPromiseRejectBlock
+    ) {
         resolve(lytics.isIDFAEnabled)
     }
 
-    @objc(user:reject:)
+    @objc(user:rejecter:)
     public func user(
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
+        resolver resolve: @escaping RCTPromiseResolveBlock,
+        rejecter reject: @escaping RCTPromiseRejectBlock
     ) {
         Task {
             let user = await lytics.user
@@ -56,11 +65,11 @@ public final class LyticsBridge: NSObject {
 
     // MARK: - Configuration
 
-    @objc(start:resolve:reject:)
+    @objc(start:resolver:rejecter:)
     public func start(
         configuration: [String: Any],
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
+        resolver resolve: @escaping RCTPromiseResolveBlock,
+        rejecter reject: @escaping RCTPromiseRejectBlock
     ) {
         guard let apiToken = configuration["apiToken"] as? String else {
             reject("invalid_api_token", "Missing or Invalid API Token", nil)
@@ -207,12 +216,12 @@ public final class LyticsBridge: NSObject {
 
     // MARK: - Personalization
 
-    @objc(getProfile:identifierValue:resolve:reject:)
+    @objc(getProfile:identifierValue:resolver:rejecter:)
     public func getProfile(
         identifierName: String?,
         identifierValue: String?,
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
+        resolver resolve: @escaping RCTPromiseResolveBlock,
+        rejecter reject: @escaping RCTPromiseRejectBlock
     ) {
         Task {
             do {
@@ -243,10 +252,10 @@ public final class LyticsBridge: NSObject {
         lytics.optOut()
     }
 
-    @objc(requestTrackingAuthorization:reject:)
+    @objc(requestTrackingAuthorization:rejecter:)
     public func requestTrackingAuthorization(
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
+        resolver resolve: @escaping RCTPromiseResolveBlock,
+        rejecter reject: @escaping RCTPromiseRejectBlock
     ) {
         Task {
             resolve(await lytics.requestTrackingAuthorization())
@@ -260,10 +269,10 @@ public final class LyticsBridge: NSObject {
 
     // MARK: - Utility
 
-    @objc(identifier:reject:)
+    @objc(identifier:rejecter:)
     public func identifier(
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
+        resolver resolve: @escaping RCTPromiseResolveBlock,
+        rejecter reject: @escaping RCTPromiseRejectBlock
     ) {
         resolve(lytics.identifier())
     }

@@ -13,22 +13,22 @@
 #pragma mark - Properties
 
 RCT_EXTERN_METHOD(hasStarted:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject)
+                  rejecter:(RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(isOptedIn:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject)
+                  rejecter:(RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(isTrackingEnabled:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject)
+                  rejecter:(RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(user:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject)
+                  rejecter:(RCTPromiseRejectBlock)reject)
 
 #pragma mark - Configuration
 
 RCT_EXTERN_METHOD(start:(NSDictionary<NSString *,id> *) configuration
-                  resolve:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject)
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 
 #pragma mark - Events
 
@@ -60,8 +60,8 @@ RCT_EXTERN_METHOD(screen:(NSString *) stream
 
 RCT_EXTERN_METHOD(getProfile:(NSString *) identifierName
                   identifierValue:(NSString *) identifierValue
-                  resolve:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject)
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 
 #pragma mark - Tracking
 
@@ -70,14 +70,14 @@ RCT_EXTERN_METHOD(optIn)
 RCT_EXTERN_METHOD(optOut)
 
 RCT_EXTERN_METHOD(requestTrackingAuthorization:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject)
+                  rejecter:(RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(disableTracking)
 
 #pragma mark - Utility
 
 RCT_EXTERN_METHOD(identifier:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject)
+                  rejecter:(RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(dispatch)
 
