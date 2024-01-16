@@ -166,8 +166,10 @@ export type EntityIdentifier = {
   value: string;
 };
 
-export function getProfile(identifier?: EntityIdentifier): Promise<LyticsUser> {
-  return Sdk.getProfile(identifier?.name, identifier?.value);
+export function getProfile(
+  entityIdentifier?: EntityIdentifier
+): Promise<LyticsUser> {
+  return Sdk.getProfile(entityIdentifier?.name, entityIdentifier?.value);
 }
 
 // Tracking
