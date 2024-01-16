@@ -29,6 +29,7 @@ export enum LogLevel {
 }
 
 export type LyticsConfiguration = {
+  apiToken: string;
   collectionEndpoint?: URL;
   entityEndpoint?: URL;
   defaultStream?: string;
@@ -92,8 +93,8 @@ export function user(): Promise<LyticsUser> {
 
 // Configuration
 
-export function start(apiToken: string, options: LyticsConfiguration) {
-  Sdk.start(apiToken, options);
+export function start(configuration: LyticsConfiguration): Promise<void> {
+  return Sdk.start(configuration);
 }
 
 // Events
