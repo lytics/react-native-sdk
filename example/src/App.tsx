@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { start, hasStarted, LogLevel } from 'react-native-sdk';
@@ -11,20 +11,20 @@ import { SettingsScreen } from './screens/Settings';
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  const [result, setResult] = React.useState<boolean | undefined>();
-
   // WARNING: this is not a safe way to store your API token!
   const apiToken = 'xxxxxx';
 
-  React.useEffect(() => {
+  useEffect(() => {
     // Configure the SDK at startup
-    start(apiToken, {
+    start({
+      apiToken: apiToken,
       logLevel: LogLevel.debug,
     });
-    hasStarted().then(setResult);
-  }, []);
 
-  console.log('hasStarted:', result);
+    hasStarted().then((result) => {
+      console.log('hasStarted:', result);
+    });
+  }, []);
 
   return (
     <NavigationContainer>
