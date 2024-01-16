@@ -34,7 +34,6 @@ export type LyticsConfiguration = {
   defaultStream?: string;
   primaryIdentityKey?: string;
   anonymousIdentityKey?: string;
-  trackApplicationLifecycleEvents?: boolean;
   uploadInterval?: number;
   maxQueueSize?: number;
   maxLoadRetryAttempts?: number;
@@ -44,6 +43,14 @@ export type LyticsConfiguration = {
   requireConsent?: boolean;
   logLevel?: LogLevel;
   defaultTable?: string;
+
+  // Andriod-only properties
+  autoTrackActivityScreens?: boolean;
+  autoTrackAppOpens?: boolean;
+  autoTrackFragmentScreens?: boolean;
+
+  // iOS-only properties
+  trackApplicationLifecycleEvents?: boolean;
 };
 
 export type JSONValue =
@@ -90,6 +97,7 @@ export function start(apiToken: string, options: LyticsConfiguration) {
 }
 
 // Events
+
 export interface TrackParams {
   stream?: string;
   name?: string;

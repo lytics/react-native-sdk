@@ -88,7 +88,9 @@ public final class LyticsBridge: NSObject {
                 lyticsConfig.anonymousIdentityKey = anonymousIdentityKey
             }
 
-            // skipping `.trackApplicationLifecycleEvents`
+            if let trackApplicationLifecycleEvents = configuration["trackApplicationLifecycleEvents"] as? Bool {
+                lyticsConfig.trackApplicationLifecycleEvents = trackApplicationLifecycleEvents
+            }
 
             if let uploadInterval = configuration["uploadInterval"] as? Double {
                 lyticsConfig.uploadInterval = uploadInterval
