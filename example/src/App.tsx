@@ -30,17 +30,25 @@ export default function App() {
     <NavigationContainer>
       <Tab.Navigator>
         <Tab.Screen
-          name="Events"
+          name="EventsTab"
           component={EventsTabNavigator}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, title: 'Events' }}
         />
         <Tab.Screen
-          name="Login"
+          name="LoginTab"
           component={LoginTabNavigator}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, title: 'Login' }}
         />
-        <Tab.Screen name="Profile" component={ProfileScreen} />
-        <Tab.Screen name="Settings" component={SettingsScreen} />
+        <Tab.Screen
+          name="ProfileTab"
+          component={ProfileScreen}
+          options={{ title: 'Profile' }}
+        />
+        <Tab.Screen
+          name="SettingsTab"
+          component={SettingsScreen}
+          options={{ title: 'Settings' }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );
