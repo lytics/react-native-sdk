@@ -146,8 +146,8 @@ public final class LyticsBridge: NSObject {
 
     @objc(track:name:identifiers:properties:)
     public func track(
-        stream: String? = nil,
-        name: String? = nil,
+        stream: String?,
+        name: String?,
         identifiers: [String: Any],
         properties: [String: Any]
     ) {
@@ -160,8 +160,8 @@ public final class LyticsBridge: NSObject {
 
     @objc(identify:name:identifiers:attributes:shouldSend:)
     public func identify(
-        stream: String? = nil,
-        name: String? = nil,
+        stream: String?,
+        name: String?,
         identifiers: [String: Any],
         attributes: [String: Any],
         shouldSend: Bool = true
@@ -176,8 +176,8 @@ public final class LyticsBridge: NSObject {
 
     @objc(consent:name:identifiers:attributes:consent:shouldSend:)
     public func consent(
-        stream: String? = nil,
-        name: String? = nil,
+        stream: String?,
+        name: String?,
         identifiers: [String: Any],
         attributes: [String: Any],
         consent: [String: Any],
@@ -193,8 +193,8 @@ public final class LyticsBridge: NSObject {
 
     @objc(screen:name:identifiers:properties:)
     public func screen(
-        stream: String? = nil,
-        name: String? = nil,
+        stream: String?,
+        name: String?,
         identifiers: [String: Any],
         properties: [String: Any]
     ) {
