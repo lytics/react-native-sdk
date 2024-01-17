@@ -1,6 +1,7 @@
 package com.lytics.react_native
 
 import android.content.Context
+import com.facebook.react.bridge.LifecycleEventListener
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -14,13 +15,14 @@ import com.lytics.android.logging.LogLevel
 import com.lytics.android.Lytics
 import com.lytics.android.LyticsConfiguration
 import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
 class LyticsModule(reactContext: ReactApplicationContext) :
-    ReactContextBaseJavaModule(reactContext) {
+    ReactContextBaseJavaModule(reactContext), LifecycleEventListener {
 
     private val context: Context
 
@@ -28,10 +30,23 @@ class LyticsModule(reactContext: ReactApplicationContext) :
 
     init {
         context = reactContext.applicationContext
+        reactContext.addLifecycleEventListener(this)
     }
 
     override fun getName(): String {
         return NAME
+    }
+
+    override fun onHostResume() {
+        // noop - overridden to implement `LifecycleEventListener`
+    }
+
+    override fun onHostPause() {
+        // noop - overridden to implement `LifecycleEventListener`
+    }
+
+    override fun onHostDestroy() {
+        scope.cancel()
     }
 
     // Properties
@@ -191,12 +206,16 @@ class LyticsModule(reactContext: ReactApplicationContext) :
     // Personalization
 
     @ReactMethod
-    fun getProfile(name: String? = null, value: String? = null, promise: Promise) {
+    fun getProfile(
+        identifierName: String? = null,
+        identifierValue: String? = null,
+        promise: Promise
+    ) {
         var identifier: EntityIdentifier? = null
-        if (name != null && value != null) {
+        if (identifierName != null && identifierValue != null) {
             identifier = EntityIdentifier(
-                name = name,
-                value = value
+                name = identifierName,
+                value = identifierValue
             )
         }
         scope.launch {
