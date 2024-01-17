@@ -5,9 +5,9 @@
 Install the SDK:
 
 ```
-yarn add <?>
+yarn add react-native-sdk
 # or
-npm install --save <?>
+npm install --save react-native-sdk
 ```
 
 ### Android
