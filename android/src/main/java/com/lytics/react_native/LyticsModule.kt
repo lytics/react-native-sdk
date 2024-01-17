@@ -206,12 +206,16 @@ class LyticsModule(reactContext: ReactApplicationContext) :
     // Personalization
 
     @ReactMethod
-    fun getProfile(name: String? = null, value: String? = null, promise: Promise) {
+    fun getProfile(
+        identifierName: String? = null,
+        identifierValue: String? = null,
+        promise: Promise
+    ) {
         var identifier: EntityIdentifier? = null
-        if (name != null && value != null) {
+        if (identifierName != null && identifierValue != null) {
             identifier = EntityIdentifier(
-                name = name,
-                value = value
+                name = identifierName,
+                value = identifierValue
             )
         }
         scope.launch {
