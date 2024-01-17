@@ -54,53 +54,62 @@ class LyticsModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun user(promise: Promise) {
-        promise.resolve(Lytics.currentUser?.toHashMap())
+        promise.resolve(Lytics.currentUser?.toReadableMap())
     }
 
     // Configuration
 
     @ReactMethod
-    fun start(apiToken: String, options: ReadableMap) {
-        val uploadInterval = options.getDoubleOrNull("uploadInterval") ?: DEFAULT_UPLOAD_INTERVAL
-        val sessionTimeout = options.getDoubleOrNull("sessionTimeout") ?: DEFAULT_SESSION_TIMEOUT
+    fun start(configuration: ReadableMap, promise: Promise) {
+        val apiToken = configuration.getString("apiToken")
+        if (apiToken == null) {
+            promise.reject("MISSING_API_TOKEN", "The API token is missing in the configuration.")
+            return
+        }
+        val uploadInterval =
+            configuration.getDoubleOrNull("uploadInterval") ?: DEFAULT_UPLOAD_INTERVAL
+        val sessionTimeout =
+            configuration.getDoubleOrNull("sessionTimeout") ?: DEFAULT_SESSION_TIMEOUT
         val requestTimeout =
-            options.getDoubleOrNull("networkRequestTimeout") ?: DEFAULT_NETWORK_REQUEST_TIMEOUT
+            configuration.getDoubleOrNull("networkRequestTimeout")
+                ?: DEFAULT_NETWORK_REQUEST_TIMEOUT
         val logLevel =
-            options.getString("logLevel")?.let { LogLevel::class.byNameIgnoreCaseOrNull(it) }
+            configuration.getIntOrNull("logLevel")?.let { LogLevel::class.fromLevelOrNull(it) }
                 ?: LogLevel.NONE
 
         val config = LyticsConfiguration(
             apiKey = apiToken,
-            defaultStream = options.getString("defaultStream") ?: DEFAULT_STREAM,
-            primaryIdentityKey = options.getString("primaryIdentityKey")
+            defaultStream = configuration.getString("defaultStream") ?: DEFAULT_STREAM,
+            primaryIdentityKey = configuration.getString("primaryIdentityKey")
                 ?: LyticsConfiguration.DEFAULT_PRIMARY_IDENTITY_KEY,
-            anonymousIdentityKey = options.getString("anonymousIdentityKey")
+            anonymousIdentityKey = configuration.getString("anonymousIdentityKey")
                 ?: LyticsConfiguration.DEFAULT_ANONYMOUS_IDENTITY_KEY,
-            defaultTable = options.getString("defaultTable")
+            defaultTable = configuration.getString("defaultTable")
                 ?: LyticsConfiguration.DEFAULT_ENTITY_TABLE,
-            requireConsent = options.getBooleanOrNull("requireConsent") ?: false,
-            autoTrackActivityScreens = options.getBooleanOrNull("autoTrackActivityScreens")
+            requireConsent = configuration.getBooleanOrNull("requireConsent") ?: false,
+            autoTrackActivityScreens = configuration.getBooleanOrNull("autoTrackActivityScreens")
                 ?: false,
-            autoTrackFragmentScreens = options.getBooleanOrNull("autoTrackFragmentScreens")
+            autoTrackFragmentScreens = configuration.getBooleanOrNull("autoTrackFragmentScreens")
                 ?: false,
-            autoTrackAppOpens = options.getBooleanOrNull("autoTrackAppOpens") ?: false,
-            maxQueueSize = options.getIntOrNull("maxQueueSize") ?: DEFAULT_MAX_QUEUE_SIZE,
-            maxUploadRetryAttempts = options.getIntOrNull("maxUploadRetryAttempts")
+            autoTrackAppOpens = configuration.getBooleanOrNull("autoTrackAppOpens") ?: false,
+            maxQueueSize = configuration.getIntOrNull("maxQueueSize") ?: DEFAULT_MAX_QUEUE_SIZE,
+            maxUploadRetryAttempts = configuration.getIntOrNull("maxUploadRetryAttempts")
                 ?: DEFAULT_MAX_UPLOAD_RETRY_ATTEMPTS,
-            maxLoadRetryAttempts = options.getIntOrNull("maxLoadRetryAttempts")
+            maxLoadRetryAttempts = configuration.getIntOrNull("maxLoadRetryAttempts")
                 ?: DEFAULT_MAX_LOAD_RETRY_ATTEMPTS,
             uploadInterval = TimeUnit.SECONDS.toMillis(uploadInterval.toLong()),
             sessionTimeout = TimeUnit.MINUTES.toMillis(sessionTimeout.toLong()),
             logLevel = logLevel,
-            sandboxMode = options.getBooleanOrNull("sandboxMode") ?: false,
-            collectionEndpoint = options.getString("collectionEndpoint")
+            sandboxMode = configuration.getBooleanOrNull("sandboxMode") ?: false,
+            collectionEndpoint = configuration.getString("collectionEndpoint")
                 ?: LyticsConfiguration.DEFAULT_COLLECTION_ENDPOINT,
-            entityEndpoint = options.getString("entityEndpoint")
+            entityEndpoint = configuration.getString("entityEndpoint")
                 ?: LyticsConfiguration.DEFAULT_ENTITY_ENDPOINT,
             networkRequestTimeout = TimeUnit.SECONDS.toMillis(requestTimeout.toLong()).toInt()
         )
 
         Lytics.init(context = context, configuration = config)
+        promise.resolve(null)
     }
 
     // Events
@@ -182,24 +191,16 @@ class LyticsModule(reactContext: ReactApplicationContext) :
     // Personalization
 
     @ReactMethod
-    fun getProfile(promise: Promise) {
-        getProfile(
-            identifier = null,
-            promise = promise
-        )
-    }
-
-    @ReactMethod
-    fun getProfile(name: String, value: String, promise: Promise) {
-        getProfile(
-            identifier = EntityIdentifier(name = name, value = value),
-            promise = promise
-        )
-    }
-
-    private fun getProfile(identifier: EntityIdentifier?, promise: Promise) {
+    fun getProfile(name: String? = null, value: String? = null, promise: Promise) {
+        var identifier: EntityIdentifier? = null
+        if (name != null && value != null) {
+            identifier = EntityIdentifier(
+                name = name,
+                value = value
+            )
+        }
         scope.launch {
-            promise.resolve(Lytics.getProfile(identifier)?.toHashMap())
+            promise.resolve(Lytics.getProfile(identifier)?.toReadableMap())
         }
     }
 

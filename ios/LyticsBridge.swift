@@ -56,16 +56,18 @@ public final class LyticsBridge: NSObject {
 
     // MARK: - Configuration
 
-    @objc(start:configuration:)
+    @objc(start:resolve:reject:)
     public func start(
-        apiToken: String,
-        configuration: [String: Any]?
+        configuration: [String: Any],
+        resolve: @escaping RCTPromiseResolveBlock,
+        reject: @escaping RCTPromiseRejectBlock
     ) {
-        lytics.start(apiToken: apiToken) { lyticsConfig in
-            guard let configuration, !configuration.isEmpty else {
-                return
-            }
+        guard let apiToken = configuration["apiToken"] as? String else {
+            reject("invalid_api_token", "Missing or Invalid API Token", nil)
+            return
+        }
 
+        lytics.start(apiToken: apiToken) { lyticsConfig in
             if let urlString = configuration["collectionEndpoint"] as? String,
                let collectionEndpoint = URL(string: urlString) {
                 lyticsConfig.collectionEndpoint = collectionEndpoint
@@ -88,7 +90,9 @@ public final class LyticsBridge: NSObject {
                 lyticsConfig.anonymousIdentityKey = anonymousIdentityKey
             }
 
-            // skipping `.trackApplicationLifecycleEvents`
+            if let trackApplicationLifecycleEvents = configuration["trackApplicationLifecycleEvents"] as? Bool {
+                lyticsConfig.trackApplicationLifecycleEvents = trackApplicationLifecycleEvents
+            }
 
             if let uploadInterval = configuration["uploadInterval"] as? Double {
                 lyticsConfig.uploadInterval = uploadInterval
@@ -106,7 +110,6 @@ public final class LyticsBridge: NSObject {
                 lyticsConfig.sessionDuration = sessionDuration
             }
 
-            // TODO: do `Bool`s work as expected?
             if let enableSandbox = configuration["enableSandbox"] as? Bool {
                 lyticsConfig.enableSandbox = enableSandbox
             }
@@ -115,15 +118,17 @@ public final class LyticsBridge: NSObject {
                 lyticsConfig.requireConsent = requireConsent
             }
 
-            if let logLevel = configuration["logLevel"] as? String {
+            if let logLevel = configuration["logLevel"] as? Int {
                 switch logLevel {
-                case "debug":
+                // .verbose, .debug
+                case 0, 1:
                     lyticsConfig.logLevel = .debug
-                case "info":
+                case 2:
                     lyticsConfig.logLevel = .info
-                case "error":
+                // .warning, .error
+                case 3, 4:
                     lyticsConfig.logLevel = .error
-                case "none":
+                case 5:
                     lyticsConfig.logLevel = .none
                 default:
                     break
@@ -133,6 +138,7 @@ public final class LyticsBridge: NSObject {
             if let defaultTable = configuration["defaultTable"] as? String {
                 lyticsConfig.defaultTable = defaultTable
             }
+            resolve(())
         }
     }
 
@@ -201,35 +207,22 @@ public final class LyticsBridge: NSObject {
 
     // MARK: - Personalization
 
-    @objc(getProfile:reject:)
-    public func getProfile(
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        Task {
-            do {
-                let profile = try await lytics.getProfile()
-                let dictionary = try convert(profile)
-                resolve(dictionary)
-            } catch {
-                reject("failure", error.localizedDescription, error)
-            }
-        }
-    }
-
     @objc(getProfile:identifierValue:resolve:reject:)
     public func getProfile(
-        identifierName: String,
-        identifierValue: String,
+        identifierName: String?,
+        identifierValue: String?,
         resolve: @escaping RCTPromiseResolveBlock,
         reject: @escaping RCTPromiseRejectBlock
     ) {
         Task {
             do {
-                let profile = try await lytics.getProfile(
-                    EntityIdentifier(
+                var identifier: EntityIdentifier?
+                if let identifierName, let identifierValue {
+                    identifier = EntityIdentifier(
                         name: identifierName,
-                        value: identifierValue))
+                        value: identifierValue)
+                }
+                let profile = try await lytics.getProfile(identifier)
                 let dictionary = try convert(profile)
                 resolve(dictionary)
             } catch {

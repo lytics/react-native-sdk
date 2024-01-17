@@ -18,7 +18,7 @@ RCT_EXTERN_METHOD(hasStarted:(RCTPromiseResolveBlock)resolve
 RCT_EXTERN_METHOD(isOptedIn:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(isIDFAEnabled:(RCTPromiseResolveBlock)resolve
+RCT_EXTERN_METHOD(isTrackingEnabled:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(user:(RCTPromiseResolveBlock)resolve
@@ -26,8 +26,9 @@ RCT_EXTERN_METHOD(user:(RCTPromiseResolveBlock)resolve
 
 #pragma mark - Configuration
 
-RCT_EXTERN_METHOD(start:(NSString *) apiToken
-                  configuration:(NSDictionary<NSString *,id> *) configuration)
+RCT_EXTERN_METHOD(start:(NSDictionary<NSString *,id> *) configuration
+                  resolve:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject)
 
 #pragma mark - Events
 
@@ -56,9 +57,6 @@ RCT_EXTERN_METHOD(screen:(NSString *) stream
                   properties:(NSDictionary<NSString *,id> *) properties)
 
 #pragma mark - Personalization
-
-RCT_EXTERN_METHOD(getProfile:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(getProfile:(NSString *) identifierName
                   identifierValue:(NSString *) identifierValue

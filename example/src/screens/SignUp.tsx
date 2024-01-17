@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
+import {
+  consent,
+  identify,
+  requestTrackingAuthorization,
+} from 'react-native-sdk';
 
 import { styles } from '../components/Styles';
 
@@ -11,7 +16,34 @@ export function SignUpScreen() {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [allowPersonalization, setAllowPersonalization] = useState(false);
 
+  const sendInfo = () => {
+    identify({
+      identifiers: { email: email },
+      attributes: { name: name },
+    });
+    consent({
+      consent: {
+        documents: ['terms_aug_2022', 'privacy_may_2022'],
+        consented: true,
+      },
+    });
+  };
+
   const handleSignUp = () => {
+    if (allowPersonalization) {
+      console.log('Requesting Tracking Authorization...');
+      requestTrackingAuthorization().then((granted) => {
+        if (granted) {
+          console.log('Authorized');
+        } else {
+          console.log('Denied');
+        }
+
+        sendInfo();
+      });
+    } else {
+      sendInfo();
+    }
     console.log('Sign Up');
   };
 
@@ -58,7 +90,11 @@ export function SignUpScreen() {
           Improve my experience with better personalization (IDFA Demo).
         </Text>
       </View>
-      <Button title="Complete" onPress={handleSignUp} />
+      <Button
+        title="Complete"
+        onPress={handleSignUp}
+        disabled={!name || !password || !password || !acceptTerms}
+      />
     </View>
   );
 }
