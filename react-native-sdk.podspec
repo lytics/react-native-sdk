@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.authors      = package["author"]
 
   s.platforms    = { :ios => "14.0" }
-  s.source       = { :git => "https://github.com/lytics/react-native-sdk", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/lytics/react-native-sdk.git", :tag => "#{s.version}" }
 
   s.source_files = "ios/**/*.{h,m,mm,swift}"
 
