@@ -5,7 +5,7 @@
 Install the SDK:
 
 ```sh
-yarn add react-native-sdk
+yarn add react-native-lytics
 ```
 
 ### Android
