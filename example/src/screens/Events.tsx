@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text, Button } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { track } from 'react-native-sdk';
+import { track } from 'react-native-lytics';
 
 import { styles } from '../components/Styles';
 import type { EventsStackParams } from '../navigation/EventsStackParams';

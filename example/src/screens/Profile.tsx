@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
-import { getProfile } from 'react-native-sdk';
+import { getProfile } from 'react-native-lytics';
 
 import { styles } from '../components/Styles';
 

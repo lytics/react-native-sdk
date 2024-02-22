@@ -10,7 +10,7 @@ import {
   requestTrackingAuthorization,
   reset,
   user,
-} from 'react-native-sdk';
+} from 'react-native-lytics';
 
 import { styles } from '../components/Styles';
 

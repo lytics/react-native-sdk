@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { start, hasStarted, LogLevel } from 'react-native-sdk';
+import { start, hasStarted, LogLevel } from 'react-native-lytics';
 
 import { EventsTabNavigator } from './navigation/EventsTabNavigator';
 import { LoginTabNavigator } from './navigation/LoginTabNavigator';
