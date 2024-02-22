@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { identify } from 'react-native-sdk';
+import { identify } from 'react-native-lytics';
 
 import { styles } from '../components/Styles';
 import type { LoginStackParams } from '../navigation/LoginStackParams';

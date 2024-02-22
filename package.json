@@ -1,5 +1,5 @@
 {
-  "name": "react-native-sdk",
+  "name": "react-native-lytics",
   "version": "0.0.1",
   "description": "Lytics SDK for React Native",
   "main": "lib/commonjs/index",

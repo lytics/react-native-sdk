@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, Text, Button } from 'react-native';
-import { screen, track } from 'react-native-sdk';
+import { screen, track } from 'react-native-lytics';
 
 import { styles } from '../components/Styles';
 

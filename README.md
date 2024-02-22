@@ -5,7 +5,7 @@
 Install the SDK:
 
 ```sh
-yarn add react-native-sdk
+yarn add react-native-lytics
 ```
 
 ### Android
@@ -37,7 +37,7 @@ npx pod-install
 You must initialize the Lytics SDK with your [API token](https://learn.lytics.com/documentation/product/features/account-management/managing-api-tokens) before using it.
 
 ```jsx
-import { start } from 'react-native-sdk';
+import { start } from 'react-native-lytics';
 
 start({
   apiToken: 'xxxxxx',
@@ -52,7 +52,7 @@ start({
 Tracking identity events provides an interface for updating the current user's properties stored on device as well as emitting an identify event to the downstream collections API.
 
 ```jsx
-import { identify } from 'react-native-sdk';
+import { identify } from 'react-native-lytics';
 
 identify({ identifiers: { email: 'jdoe@email.com' } });
 ```
@@ -62,7 +62,7 @@ identify({ identifiers: { email: 'jdoe@email.com' } });
 Consent events provide an interface for configuring and emitting a special event that represents an app users explicit consent. This event does everything a normal event does in addition to providing a special payload for consent details at the discretion of the developer.
 
 ```jsx
-import { consent } from 'react-native-sdk';
+import { consent } from 'react-native-lytics';
 
 consent({
   consent: {
@@ -77,7 +77,7 @@ consent({
 Track custom events provides an interface for configuring and emitting a custom event at the customers discretion throughout their application (e.g. made a purchase or logged in).
 
 ```jsx
-import { track } from 'react-native-sdk';
+import { track } from 'react-native-lytics';
 
 track({ name: 'Event_Tap', properties: { event: 'Event_Tap' } });
 ```
@@ -87,7 +87,7 @@ track({ name: 'Event_Tap', properties: { event: 'Event_Tap' } });
 Screen events provide an interface for configuring and emitting a special event that represents a screen or page view. It should be seen as an extension of the track method.
 
 ```jsx
-import { screen } from 'react-native-sdk';
+import { screen } from 'react-native-lytics';
 
 screen({
   name: 'Event_Detail',
@@ -120,7 +120,7 @@ Before collecting the IDFA you must first add a [`NSUserTrackingUsageDescription
 ### Usage
 
 ```jsx
-import { requestTrackingAuthorization } from 'react-native-sdk';
+import { requestTrackingAuthorization } from 'react-native-lytics';
 
 requestTrackingAuthorization();
 ```
