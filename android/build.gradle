@@ -83,6 +83,7 @@ repositories {
 }
 
 def kotlin_version = getExtOrDefault("kotlinVersion")
+def lytics_android_version = getExtOrDefault("lyticsAndroidVersion")
 
 dependencies {
   // For < 0.71, this will be from the local maven repo
@@ -90,7 +91,6 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  // FIXME: specify stable version
-  implementation 'com.github.lytics:android-sdk:main-SNAPSHOT'
+  implementation "com.github.lytics:android-sdk:$lytics_android_version"
 }
 
